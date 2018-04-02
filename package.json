@@ -1,0 +1,11 @@
+{
+  "name": "BoulderWarriorsChallenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/martynach/BoulderWarriorsChallenge.git",
+  "author": "Martyna <chomicz.martyna@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^22.4.3"
+  }
+}
