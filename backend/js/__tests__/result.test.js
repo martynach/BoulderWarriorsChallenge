@@ -10,3 +10,9 @@ test('Get results for meeting with id=1', async () => {
     const actual = await result.getResults(1);
     expect(actual).toMatchSnapshot();
 });
+
+test('Get results for no existing meeting with id=1', async () => {
+    expect.assertions(1);
+    const actual = await result.getResults(2);
+    expect(actual).toBeUndefined();
+});
