@@ -7,7 +7,7 @@ const Player = require('./Player');
 const player = new Player();
 
 const Meeting = require('./Meeting');
-const meeting = new Player();
+const meeting = new Meeting();
 
 
 //lista wszystkich zawodników
@@ -19,7 +19,7 @@ app.get('/players', async (req, res) => {
 //lista wszystkich eventów
 app.get('/meetings', async (req, res) => {
     res.send(await meeting.getAllMeetings());
-    
+
 });
 
 //lista wyników konkretnych zawodów
