@@ -5,7 +5,7 @@ const path = require("path");
 class Meeting {
 
     constructor() {
-        this.filepath = path.join( __dirname, './../data/players.json');
+        this.filepath = path.join(__dirname, './../data/players.json');
     }
 
     async getAllMeetings() {
