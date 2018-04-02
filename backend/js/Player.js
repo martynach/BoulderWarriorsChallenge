@@ -48,6 +48,16 @@ class Player {
 
     }
 
+    async getPlayersSortedByPoints() {
+        await this.loadPlayers();
+
+        return this.players.sort((player1, player2) => {
+            const point1 = player1.top * 3 + player1.bonus;
+            const point2 = player2.top * 3 + player2.bonus;
+            return point1 - point2;
+        });
+    }
+
 
 
 }
