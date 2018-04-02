@@ -8,7 +8,8 @@ class Player {
     }
 
     async getAllPlayers () {
-        return await promisify(fs.readFile, this.filepath, 'utf8');
+        const jsonString = await promisify(fs.readFile, this.filepath, 'utf8');
+        return JSON.parse(jsonString);
     }
 
 

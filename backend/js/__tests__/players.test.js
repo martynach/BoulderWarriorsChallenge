@@ -7,8 +7,6 @@ const player = new Player(filepath);
 
 test('Get all players', async () => {
     expect.assertions(1);
-    const actual = JSON.parse(await player.getAllPlayers());
-    //const expected = JSON.parse('[{"id":1,"firstname":"Edyta","lastname":"Akarczyk","top":5,"bonus":6}]');
-    // expect(actual).toEqual(expected);
+    const actual = await player.getAllPlayers();
     expect(actual).toMatchSnapshot();
 });
