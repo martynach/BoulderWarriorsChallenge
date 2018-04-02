@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Get all meetings 1`] = `
+Array [
+  Object {
+    "date": "13.01.2018",
+    "id": 1,
+    "name": "Pierwsze starcie wojowników",
+    "numOfBoulders": 5,
+    "players": "1,2,3,4,5,6",
+  },
+  Object {
+    "date": "13.05.2018",
+    "id": 2,
+    "name": "Boulder Warriors Challenge - długa walka",
+    "numOfBoulders": 40,
+    "players": "1,9",
+  },
+]
+`;
