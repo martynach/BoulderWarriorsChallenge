@@ -16,16 +16,17 @@ class Player {
         }
     }
 
-    async getAllPlayers() {
+    async getAllPlayers(gender) {
 
         await this.loadPlayers();
 
-        let players = this.players.map(player => {
+
+        let expectedPlayers = this.players.map(player => {
             return { firstname: player.firstname, lastname: player.lastname, id: player.id };
         }
         );
 
-        return players.sort((player1, player2) => {
+        expectedPlayers = expectedPlayers.sort((player1, player2) => {
             const lastname1 = player1.lastname.toLowerCase();
             const lastname2 = player2.lastname.toLowerCase();
 
@@ -51,16 +52,49 @@ class Player {
             return 0;
         });
 
+        if (gender) {
+            return this.filterByGender(expectedPlayers, gender);
+        }
+
+        return expectedPlayers;
     }
 
-    async getPlayersSortedByPoints() {
+    async getPlayersSortedByPoints(gender) {
         await this.loadPlayers();
 
-        return this.players.sort((player1, player2) => {
+        let sortedPlayers = this.players.sort((player1, player2) => {
             const point1 = player1.top * 3 + player1.bonus;
             const point2 = player2.top * 3 + player2.bonus;
             return point1 - point2;
         });
+
+        if (gender) {
+            return this.filterByGender(sortedPlayers, gender);
+        }
+
+        return sortedPlayers;
+    }
+
+    filterByGender(playersArray, gender) {
+        gender = gender.toLowerCase();
+
+        if (gender === "female" || gender === "f") {
+            gender = 'female';
+
+        } else if (gender === "male" || gender === "m") {
+            gender = 'male';
+        } else {
+            return undefined;
+        }
+
+        let filteredPlayers = [];
+        playersArray.array.forEach(player => {
+            if (player.gender === gender) {
+                filteredPlayers.push(player);
+            }
+        });
+
+        return filteredPlayers;
     }
 
 
