@@ -4,8 +4,10 @@ const app = express();
 const path = require("path");
 
 const Player = require('./Player');
-const filepath = path.join( __dirname, './../data/players.json');
-const player = new Player(filepath);
+const player = new Player();
+
+const Meeting = require('./Meeting');
+const meeting = new Player();
 
 
 //lista wszystkich zawodników
@@ -16,6 +18,7 @@ app.get('/players', async (req, res) => {
 
 //lista wszystkich eventów
 app.get('/meetings', async (req, res) => {
+    res.send(await meeting.getAllMeetings());
     
 });
 

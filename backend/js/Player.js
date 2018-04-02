@@ -1,10 +1,12 @@
 const fs = require('fs');
 const promisify = require('./promisify');
+const path = require("path");
+
 
 class Player {
 
     constructor(filepath) {
-        this.filepath = filepath;
+        this.filepath = path.join(__dirname, './../data/players.json');
     }
 
     async getAllPlayers() {
@@ -41,7 +43,7 @@ class Player {
     }
 
 
-    
+
 }
 
 module.exports = Player;

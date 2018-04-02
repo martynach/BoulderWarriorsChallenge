@@ -1,7 +1,8 @@
 const Meeting = require('./../Meeting');
+const meeting = new Meeting();
 const path = require("path");
 const filepath = path.join( __dirname, './test_data/meetings.json');
-const meeting = new Meeting(filepath);
+meeting.filepath = filepath;
 
 
 
