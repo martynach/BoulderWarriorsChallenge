@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Get all players 1`] = `
+Array [
+  Object {
+    "bonus": 6,
+    "firstname": "Edyta",
+    "id": 1,
+    "lastname": "Akarczyk",
+    "top": 5,
+  },
+]
+`;
