@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "Pierwsze starcie wojowników",
+        "date": "13.01.2018",
+        "numOfBoulders": 5,
+        "players": "1,2,3,4,5,6"
+    },
+    {
+        "id": 2,
+        "name": "Boulder Warriors Challenge - długa walka",
+        "date": "13.05.2018",
+        "numOfBoulders": 40,
+        "players": "1,9"
+    }
+]

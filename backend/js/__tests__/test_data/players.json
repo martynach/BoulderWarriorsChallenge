@@ -4,71 +4,71 @@
        "firstname":"Edyta",
        "lastname":"Tokarczyk",
        "gender": "f",
-       "top":11,
-       "bonus":13
+       "top":2,
+       "bonus":3
     },
     {  
        "id":2,
        "firstname":"Michał",
        "lastname":"Nowak",
        "gender": "m",
-       "top":10,
-       "bonus":13
+       "top":3,
+       "bonus":5
     },
     {  
        "id":3,
        "firstname":"Wojciech",
        "lastname":"Bańczyk",
        "gender": "m",
-       "top":10,
-       "bonus":11
+       "top":5,
+       "bonus":5
     },
     {  
        "id":4,
        "firstname":"Karolina",
        "lastname":"Kozakiewicz",
        "gender": "f",
-       "top":12,
-       "bonus":13
+       "top":4,
+       "bonus":5
     },
     {  
        "id":5,
        "firstname":"Damian",
        "lastname":"Strojny",
        "gender": "m",
-       "top":9,
-       "bonus":15
+       "top":3,
+       "bonus":4
     },
     {  
        "id":6,
        "firstname":"Jakub",
        "lastname":"Bogucki",
        "gender": "m",
-       "top":14,
-       "bonus":14
+       "top":1,
+       "bonus":2
     },
     {  
        "id":7,
        "firstname":"Ola",
        "lastname":"Chomicz",
        "gender": "f",
-       "top":6,
-       "bonus":8
+       "top":0,
+       "bonus":0
     },
     {  
        "id":8,
        "firstname":"Monika",
        "lastname":"Tokarczyk",
        "gender": "f",
-       "top":25,
-       "bonus":20
+       "top":0,
+       "bonus":0
     },
     {  
        "id":9,
        "firstname":"Anna",
        "lastname":"Nowak",
        "gender": "f",
-       "top":20,
-       "bonus":20
+       "top":0,
+       "bonus":0
     }
  ]
