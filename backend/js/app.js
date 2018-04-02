@@ -9,6 +9,9 @@ const player = new Player();
 const Meeting = require('./Meeting');
 const meeting = new Meeting();
 
+const Result = require('./Result');
+const result = new Result();
+
 
 //lista wszystkich zawodników
 app.get('/players', async (req, res) => {
@@ -25,8 +28,8 @@ app.get('/meetings', async (req, res) => {
 //lista wyników konkretnych zawodów
 app.get('/meetings/:id/results', async (req, res) => {
     const meetingID = req.params.id;
+    res.send(await result.getResults(meetingID));
 
-    
 });
 
 

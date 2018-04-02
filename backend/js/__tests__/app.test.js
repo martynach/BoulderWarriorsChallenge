@@ -15,6 +15,7 @@ test('Test /meetings/:1/results endpoint', async () => {
 });
 
 //todo statusCode
+//todo to consider whether 200 is ok
 test('Test /meetings/:2/results endpoint', async () => {
     return request(app).get('/meetings/2/results').expect(200);
 });
