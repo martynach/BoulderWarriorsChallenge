@@ -8,12 +8,16 @@ class Meeting {
         this.filepath = path.join(__dirname, './../data/players.json');
     }
 
-    async getAllMeetings() {
-        if (!this.meetingsArray) {
+    async loadMeetings() {
+        if (!this.meetings) {
             const jsonString = await promisify(fs.readFile, this.filepath, 'utf8');
-            this.meetingsArray = JSON.parse(jsonString);
+            this.meetings = JSON.parse(jsonString);
         }
-        return this.meetingsArray;
+    }
+
+    async getAllMeetings() {
+        await this.loadMeetings();
+        return this.meetings;
     }
 }
 

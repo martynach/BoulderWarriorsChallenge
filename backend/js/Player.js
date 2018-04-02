@@ -9,12 +9,18 @@ class Player {
         this.filepath = path.join(__dirname, './../data/players.json');
     }
 
-    async getAllPlayers() {
-        if (!this.playersArray) {
+    async loadPlayers() {
+        if (!this.players) {
             const jsonString = await promisify(fs.readFile, this.filepath, 'utf8');
-            this.playersArray = JSON.parse(jsonString);
+            this.players = JSON.parse(jsonString);
         }
-        return this.playersArray.sort((player1, player2) => {
+    }
+
+    async getAllPlayers() {
+
+        await this.loadPlayers();
+
+        return this.players.sort((player1, player2) => {
             const lastname1 = player1.lastname.toLowerCase();
             const lastname2 = player2.lastname.toLowerCase();
 
