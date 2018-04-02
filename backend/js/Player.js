@@ -20,7 +20,12 @@ class Player {
 
         await this.loadPlayers();
 
-        return this.players.sort((player1, player2) => {
+        let players = this.players.map(player => {
+            return { firstname: player.firstname, lastname: player.lastname, id: player.id };
+        }
+        );
+
+        return players.sort((player1, player2) => {
             const lastname1 = player1.lastname.toLowerCase();
             const lastname2 = player2.lastname.toLowerCase();
 
