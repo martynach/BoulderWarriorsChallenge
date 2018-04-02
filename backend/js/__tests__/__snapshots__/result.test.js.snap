@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Get results for meeting with id=1 1`] = `
+Object {
+  "boulders": Array [
+    Object {
+      "bonus": Array [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+      ],
+      "top": Array [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+      ],
+    },
+    Object {
+      "bonus": Array [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+      ],
+      "top": Array [
+        1,
+        2,
+        3,
+        4,
+        5,
+      ],
+    },
+    Object {
+      "bonus": Array [
+        1,
+        2,
+        3,
+        4,
+        5,
+      ],
+      "top": Array [
+        2,
+        3,
+        4,
+        5,
+      ],
+    },
+    Object {
+      "bonus": Array [
+        2,
+        3,
+        4,
+        5,
+      ],
+      "top": Array [
+        3,
+        4,
+      ],
+    },
+    Object {
+      "bonus": Array [
+        2,
+        3,
+        4,
+      ],
+      "top": Array [
+        3,
+      ],
+    },
+  ],
+  "meetingID": 1,
+}
+`;
