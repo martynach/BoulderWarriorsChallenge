@@ -15,12 +15,12 @@ const result = new Result();
 
 //lista wszystkich zawodników
 app.get('/players', async (req, res) => {
-    res.send(await player.getAllPlayers(req.query.countries));
+    res.send(await player.getAllPlayers(req.query.gender));
     
 });
 
 app.get('/players/top', async (req, res) => {
-    res.send(await player.getPlayersSortedByPoints(req.query.countries));
+    res.send(await player.getPlayersSortedByPoints(req.query.gender));
     
 });
 
