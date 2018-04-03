@@ -1,2 +1,4 @@
 node_modules
 .vscode
+moje_uwagi.txt
+*.log
