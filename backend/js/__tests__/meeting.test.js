@@ -50,11 +50,11 @@ describe('Tests for adding meeting', () => {
         meeting.filepath = filepath;
     });
 
-    test('addNewEvent adding single future event', async () => {
+    test('addNewMeeting adding single future event', async () => {
         expect.assertions(3);
 
         const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10 };
-        const addingResult = await meeting.addNewEvent(newEvent);
+        const addingResult = await meeting.addNewMeeting(newEvent);
         expect(addingResult).toBeTruthy();
 
         const meetings = await meeting.getAllMeetings();
@@ -64,11 +64,11 @@ describe('Tests for adding meeting', () => {
         expect(tmpFileContent).toMatchSnapshot();
     });
 
-    test('addNewEvent adding single future event with some players', async () => {
+    test('addNewMeeting adding single future event with some players', async () => {
         expect.assertions(3);
 
         const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1,2] };
-        const addingResult = await meeting.addNewEvent(newEvent);
+        const addingResult = await meeting.addNewMeeting(newEvent);
         expect(addingResult).toBeTruthy();
 
         const meetings = await meeting.getAllMeetings();
@@ -78,11 +78,11 @@ describe('Tests for adding meeting', () => {
         expect(tmpFileContent).toMatchSnapshot();
     });
 
-    test('addNewEvent adding single future event with incorrect players', async () => {
+    test('addNewMeeting adding single future event with incorrect players', async () => {
         expect.assertions(1);
 
         const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1,2, 200] };
-        const addingResult = await meeting.addNewEvent(newEvent);
+        const addingResult = await meeting.addNewMeeting(newEvent);
 
         expect(addingResult).toBeFalsy();
 
