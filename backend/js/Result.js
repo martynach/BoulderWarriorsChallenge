@@ -19,7 +19,7 @@ class Result {
         await this.loadResults();
         return this.results.find(element => {
             if (element.meetingID === meetingID) {
-                return element;
+                return true;
             }
         });
     }
