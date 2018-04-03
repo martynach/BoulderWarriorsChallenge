@@ -17,11 +17,7 @@ class Result {
 
     async getResults(meetingID) {
         await this.loadResults();
-        return this.results.find(element => {
-            if (element.meetingID === meetingID) {
-                return true;
-            }
-        });
+        return this.results.find(element => element.meetingID === meetingID);
     }
     
 }

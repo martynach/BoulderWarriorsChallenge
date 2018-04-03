@@ -70,7 +70,7 @@ class Player {
             return undefined;
         }
 
-        return playersArray.filter(player => player.gender === gender ? true : false);
+        return playersArray.filter(player => player.gender === gender);
     }
 
 }
