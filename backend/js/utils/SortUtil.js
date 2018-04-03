@@ -31,5 +31,4 @@ function compareAlphabetically(player1, player2) {
     return 0;
 }
 
-module.exports.compareByPoints = compareByPoints;
-module.exports.compareAlphabetically = compareAlphabetically;
+module.exports = {compareByPoints, compareAlphabetically};
