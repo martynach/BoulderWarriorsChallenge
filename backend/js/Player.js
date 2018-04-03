@@ -1,9 +1,9 @@
 const fs = require('fs');
-const promisify = require('./promisify');
+const promisify = require('./utils/promisify');
 const path = require("path");
 
-const FilterUtil = require('./customUtils/FilterUtil');
-const SortUtil = require('./customUtils/SortUtil');
+const filterPlayers = require('./utils/filterPlayers');
+const comparePlayers = require('./utils/comparePlayers');
 
 
 
@@ -32,10 +32,10 @@ class Player {
             ({ firstname: player.firstname, lastname: player.lastname, id: player.id, gender: player.gender })
         );
 
-        expectedPlayers.sort(SortUtil.compareAlphabetically);
+        expectedPlayers.sort(comparePlayers.compareAlphabetically);
 
         if (gender) {
-            return FilterUtil.filterByGender(expectedPlayers, gender);
+            return filterPlayers.filterByGender(expectedPlayers, gender);
         }
         return expectedPlayers;
     }
@@ -43,10 +43,10 @@ class Player {
     async getPlayersSortedByPoints(gender) {
         await this.loadPlayers();
 
-        this.players.sort(SortUtil.compareByPoints);
+        this.players.sort(comparePlayers.compareByPoints);
 
         if (gender) {
-            return FilterUtil.filterByGender(this.players, gender);
+            return filterPlayers.filterByGender(this.players, gender);
         }
         return this.players;
     }

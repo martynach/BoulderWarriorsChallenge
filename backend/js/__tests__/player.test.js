@@ -5,7 +5,7 @@ const filepath = path.join(__dirname, './test_data/players.json');
 player.filepath = filepath;
 
 const fs = require('fs');
-const promisify = require('./../promisify');
+const promisify = require('./../utils/promisify');
 
 
 test('Get all players test', async () => {

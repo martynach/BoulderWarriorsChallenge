@@ -1,11 +1,11 @@
 const fs = require('fs');
-const promisify = require('./promisify');
+const promisify = require('./utils/promisify');
 const path = require("path");
 const Player = require('./Player');
 const player = new Player(); 
 
-const FilterUtil = require('./customUtils/FilterUtil');
-const SortUtil = require('./customUtils/SortUtil');
+const filterPlayers = require('./utils/filterPlayers');
+const comparePlayers = require('./utils/comparePlayers');
 
 const Joi = require('joi');
 
@@ -54,10 +54,10 @@ class Meeting {
             return { firstname: player.firstname, lastname: player.lastname, gender: player.gender, top: result.top, bonus: result.bonus };
         });
 
-        resultsWithPlayersData.sort(SortUtil.compareByPoints);
+        resultsWithPlayersData.sort(comparePlayers.compareByPoints);
 
         if (gender) {
-            return FilterUtil.filterByGender(resultsWithPlayersData, gender);
+            return filterPlayers.filterByGender(resultsWithPlayersData, gender);
         }
 
         return resultsWithPlayersData;
@@ -72,6 +72,10 @@ class Meeting {
 
         if(!newMeeting.players) {
             newMeeting.players = [];
+        }
+
+        if(!newMeeting.numOfBoulders) {
+            newMeeting.numOfBoulders = [];
         }
 
         if(!this.validateNewMeetingProperties(newMeeting)) {

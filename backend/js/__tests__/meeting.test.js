@@ -5,7 +5,7 @@ const filepath = path.join( __dirname, './test_data/meetings.json');
 meeting.filepath = filepath;
 
 const fs = require('fs');
-const promisify = require('./../promisify');
+const promisify = require('./../utils/promisify');
 
 
 
