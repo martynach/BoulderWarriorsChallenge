@@ -17,17 +17,13 @@ class Result {
 
     async getResults(meetingID) {
         await this.loadResults();
-
-        let demandedResult;
-
-        this.results.forEach(element => {
+        return this.results.find(element => {
             if (element.meetingID === meetingID) {
-                demandedResult = element;
+                return element;
             }
         });
-
-        return demandedResult;
     }
+    
 }
 
 module.exports = Result;

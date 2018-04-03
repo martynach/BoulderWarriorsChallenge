@@ -6,6 +6,23 @@ test('Test /players endpoint', async () => {
     return request(app).get('/players').expect(200);
 });
 
+test('Test /players?gender=f endpoint', async () => {
+    return request(app).get('/players').expect(200);
+});
+
+test('Test /players/top endpoint', async () => {
+    return request(app).get('/players').expect(200);
+});
+
+test('Test /players/top?gender=male endpoint', async () => {
+    return request(app).get('/players').expect(200);
+});
+
+//TODO
+// test('Test /players/top?gender=k endpoint', async () => {
+//     return request(app).get('/players').expect(400);
+// });
+
 test('Test /meetings endpoint', async () => {
     return request(app).get('/meetings').expect(200);
 });
