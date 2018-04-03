@@ -70,10 +70,9 @@ describe('Tests for adding new player', () => {
 
     });
 
-    // //TODO
-    // afterEach(async () => {
-    //     await promisify(fs.ulink, tmpFilepath);
-    // });
+    afterEach(async () => {
+        await promisify(fs.unlink, tmpFilepath);
+    });
 
     afterAll(() => {
         player.filepath = filepath;
