@@ -4,6 +4,9 @@ const path = require("path");
 const filepath = path.join(__dirname, './test_data/players.json');
 player.filepath = filepath;
 
+const fs = require('fs');
+const promisify = require('./../promisify');
+
 
 test('Get all players test', async () => {
     expect.assertions(1);
@@ -51,4 +54,38 @@ test('getPlayersSortedByPoints unknown gender test', async () => {
     expect.assertions(1);
     const actual = await player.getPlayersSortedByPoints('fee');
     expect(actual).toBeUndefined();
+});
+
+
+
+describe('Tests for adding new player', () => {
+
+    beforeAll(() => {
+        const tmpFilepath = path.join(__dirname, './test_data/players_tmp.json');
+        player.filepath = tmpFilepath;
+    })
+
+    beforeEach(async () => {
+        await promisify(fs.copyFile, filepath, tmpFilepath);
+
+    });
+
+    afterEach(async () => {
+        await promisify(fs.ulink, tmpFilepath);
+    });
+
+    afterAll(() => {
+        player.filepath = filepath;
+    });
+
+    test('addNewPlayer test for', async () => {
+        expect.assertions(1);
+    
+    
+        const newPlayer = {firstname: 'Marti', lastname: 'Chomik', gender: 'f'};
+        await player.playerAddNewPlayer(newPlayer);
+        const allPlayers = await player.getAllPlayers();
+        expect(allPlayers).toMatchSnapshot();
+    })
+
 });
