@@ -7,14 +7,105 @@ Array [
     "id": 1,
     "name": "Pierwsze starcie wojowników",
     "numOfBoulders": 5,
-    "players": "1,2,3,4,5,6",
+    "players": Array [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+    ],
+    "results": Array [
+      Object {
+        "bonus": 3,
+        "playerID": 1,
+        "top": 2,
+      },
+      Object {
+        "bonus": 5,
+        "playerID": 2,
+        "top": 3,
+      },
+      Object {
+        "bonus": 5,
+        "playerID": 3,
+        "top": 5,
+      },
+      Object {
+        "bonus": 5,
+        "playerID": 4,
+        "top": 4,
+      },
+      Object {
+        "bonus": 4,
+        "playerID": 5,
+        "top": 3,
+      },
+      Object {
+        "bonus": 2,
+        "playerID": 6,
+        "top": 1,
+      },
+    ],
   },
   Object {
     "date": "13.05.2018",
     "id": 2,
     "name": "Boulder Warriors Challenge - długa walka",
     "numOfBoulders": 40,
-    "players": "1,9",
+    "players": Array [
+      1,
+      9,
+    ],
+    "results": Array [],
+  },
+]
+`;
+
+exports[`Get results for meeting with id=1 1`] = `
+Array [
+  Object {
+    "bonus": 5,
+    "firstname": "Wojciech",
+    "gender": "m",
+    "lastname": "Bańczyk",
+    "top": 5,
+  },
+  Object {
+    "bonus": 5,
+    "firstname": "Karolina",
+    "gender": "f",
+    "lastname": "Kozakiewicz",
+    "top": 4,
+  },
+  Object {
+    "bonus": 5,
+    "firstname": "Michał",
+    "gender": "m",
+    "lastname": "Nowak",
+    "top": 3,
+  },
+  Object {
+    "bonus": 4,
+    "firstname": "Damian",
+    "gender": "m",
+    "lastname": "Strojny",
+    "top": 3,
+  },
+  Object {
+    "bonus": 3,
+    "firstname": "Edyta",
+    "gender": "f",
+    "lastname": "Tokarczyk",
+    "top": 2,
+  },
+  Object {
+    "bonus": 2,
+    "firstname": "Jakub",
+    "gender": "m",
+    "lastname": "Bogucki",
+    "top": 1,
   },
 ]
 `;

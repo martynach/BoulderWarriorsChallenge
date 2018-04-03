@@ -2,6 +2,10 @@ const fs = require('fs');
 const promisify = require('./promisify');
 const path = require("path");
 
+const FilterUtil = require('./customUtils/FilterUtil');
+const SortUtil = require('./customUtils/SortUtil');
+
+
 
 class Player {
 
@@ -17,28 +21,16 @@ class Player {
     }
 
     async getAllPlayers(gender) {
-
         await this.loadPlayers();
 
         let expectedPlayers = this.players.map(player =>
-            ({ firstname: player.firstname, lastname: player.lastname, id: player.id })
+            ({ firstname: player.firstname, lastname: player.lastname, id: player.id, gender: player.gender })
         );
 
-        expectedPlayers.sort((player1, player2) => {
-            const name1 = player1.lastname.toLowerCase() + player1.firstname.toLowerCase();
-            const name2 = player2.lastname.toLowerCase() + player2.firstname.toLowerCase();
-
-            if (name1 < name2) {
-                return -1;
-            }
-            if (name1 > name2) {
-                return 1;
-            }
-            return 0;
-        });
+        expectedPlayers.sort(SortUtil.compareAlphabetically);
 
         if (gender) {
-            return this.filterByGender(expectedPlayers, gender);
+            return FilterUtil.filterByGender(expectedPlayers, gender);
         }
         return expectedPlayers;
     }
@@ -46,31 +38,12 @@ class Player {
     async getPlayersSortedByPoints(gender) {
         await this.loadPlayers();
 
-        this.players.sort((player1, player2) => {
-            const point1 = player1.top * 3 + player1.bonus;
-            const point2 = player2.top * 3 + player2.bonus;
-            return point2 - point1;
-        });
+        this.players.sort(SortUtil.compareByPoints);
 
         if (gender) {
-            return this.filterByGender(this.players, gender);
+            return FilterUtil.filterByGender(this.players, gender);
         }
         return this.players;
-    }
-
-    filterByGender(playersArray, gender) {
-        gender = gender.toLowerCase();
-
-        if (gender === 'female' || gender === 'f') {
-            gender = 'f';
-
-        } else if (gender === "male" || gender === 'm') {
-            gender = 'm';
-        } else {
-            return undefined;
-        }
-
-        return playersArray.filter(player => player.gender === gender);
     }
 
 }

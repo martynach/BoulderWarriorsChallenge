@@ -1,53 +1,122 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Get all female players test 1`] = `Array []`;
-
-exports[`Get all male players test 1`] = `Array []`;
-
-exports[`Get all players test 1`] = `
+exports[`Get all female players test 1`] = `
 Array [
   Object {
-    "firstname": "Wojciech",
-    "id": 3,
-    "lastname": "Bańczyk",
-  },
-  Object {
-    "firstname": "Jakub",
-    "id": 6,
-    "lastname": "Bogucki",
-  },
-  Object {
     "firstname": "Ola",
+    "gender": "f",
     "id": 7,
     "lastname": "Chomicz",
   },
   Object {
     "firstname": "Karolina",
+    "gender": "f",
     "id": 4,
     "lastname": "Kozakiewicz",
   },
   Object {
     "firstname": "Anna",
+    "gender": "f",
     "id": 9,
     "lastname": "Nowak",
   },
   Object {
-    "firstname": "Michał",
-    "id": 2,
-    "lastname": "Nowak",
-  },
-  Object {
-    "firstname": "Damian",
-    "id": 5,
-    "lastname": "Strojny",
-  },
-  Object {
     "firstname": "Edyta",
+    "gender": "f",
     "id": 1,
     "lastname": "Tokarczyk",
   },
   Object {
     "firstname": "Monika",
+    "gender": "f",
+    "id": 8,
+    "lastname": "Tokarczyk",
+  },
+]
+`;
+
+exports[`Get all male players test 1`] = `
+Array [
+  Object {
+    "firstname": "Wojciech",
+    "gender": "m",
+    "id": 3,
+    "lastname": "Bańczyk",
+  },
+  Object {
+    "firstname": "Jakub",
+    "gender": "m",
+    "id": 6,
+    "lastname": "Bogucki",
+  },
+  Object {
+    "firstname": "Michał",
+    "gender": "m",
+    "id": 2,
+    "lastname": "Nowak",
+  },
+  Object {
+    "firstname": "Damian",
+    "gender": "m",
+    "id": 5,
+    "lastname": "Strojny",
+  },
+]
+`;
+
+exports[`Get all players test 1`] = `
+Array [
+  Object {
+    "firstname": "Wojciech",
+    "gender": "m",
+    "id": 3,
+    "lastname": "Bańczyk",
+  },
+  Object {
+    "firstname": "Jakub",
+    "gender": "m",
+    "id": 6,
+    "lastname": "Bogucki",
+  },
+  Object {
+    "firstname": "Ola",
+    "gender": "f",
+    "id": 7,
+    "lastname": "Chomicz",
+  },
+  Object {
+    "firstname": "Karolina",
+    "gender": "f",
+    "id": 4,
+    "lastname": "Kozakiewicz",
+  },
+  Object {
+    "firstname": "Anna",
+    "gender": "f",
+    "id": 9,
+    "lastname": "Nowak",
+  },
+  Object {
+    "firstname": "Michał",
+    "gender": "m",
+    "id": 2,
+    "lastname": "Nowak",
+  },
+  Object {
+    "firstname": "Damian",
+    "gender": "m",
+    "id": 5,
+    "lastname": "Strojny",
+  },
+  Object {
+    "firstname": "Edyta",
+    "gender": "f",
+    "id": 1,
+    "lastname": "Tokarczyk",
+  },
+  Object {
+    "firstname": "Monika",
+    "gender": "f",
     "id": 8,
     "lastname": "Tokarczyk",
   },
