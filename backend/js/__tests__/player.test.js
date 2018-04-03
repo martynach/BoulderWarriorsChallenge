@@ -89,7 +89,6 @@ describe('Tests for adding new player', () => {
         expect(allPlayers).toMatchSnapshot();
 
         const tmpFileContent = await promisify(fs.readFile, tmpFilepath, 'utf8');
-        //console.log(tmpFileContent);
         expect(tmpFileContent).toMatchSnapshot();
     })
 
