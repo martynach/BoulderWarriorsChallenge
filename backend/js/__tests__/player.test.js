@@ -59,33 +59,38 @@ test('getPlayersSortedByPoints unknown gender test', async () => {
 
 
 describe('Tests for adding new player', () => {
+    const tmpFilepath = path.join(__dirname, './test_data/players_tmp.json');
 
     beforeAll(() => {
-        const tmpFilepath = path.join(__dirname, './test_data/players_tmp.json');
         player.filepath = tmpFilepath;
-    })
+    });
 
     beforeEach(async () => {
         await promisify(fs.copyFile, filepath, tmpFilepath);
 
     });
 
-    afterEach(async () => {
-        await promisify(fs.ulink, tmpFilepath);
-    });
+    // //TODO
+    // afterEach(async () => {
+    //     await promisify(fs.ulink, tmpFilepath);
+    // });
 
     afterAll(() => {
         player.filepath = filepath;
     });
 
-    test('addNewPlayer test for', async () => {
-        expect.assertions(1);
-    
-    
-        const newPlayer = {firstname: 'Marti', lastname: 'Chomik', gender: 'f'};
-        await player.playerAddNewPlayer(newPlayer);
+    test('addNewPlayer method test for adding one player', async () => {
+        expect.assertions(2);
+
+        const newPlayer = { firstname: 'Marti', lastname: 'Chomik', gender: 'f' };
+        await player.addNewPlayers([newPlayer]);
+
         const allPlayers = await player.getAllPlayers();
         expect(allPlayers).toMatchSnapshot();
+
+        const tmpFileContent = await promisify(fs.readFile, tmpFilepath, 'utf8');
+        //console.log(tmpFileContent);
+        expect(tmpFileContent).toMatchSnapshot();
     })
 
 });

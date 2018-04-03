@@ -123,6 +123,73 @@ Array [
 ]
 `;
 
+exports[`Tests for adding new player addNewPlayer method test for adding one player 1`] = `
+Array [
+  Object {
+    "firstname": "Wojciech",
+    "gender": "m",
+    "id": 3,
+    "lastname": "Bańczyk",
+  },
+  Object {
+    "firstname": "Jakub",
+    "gender": "m",
+    "id": 6,
+    "lastname": "Bogucki",
+  },
+  Object {
+    "firstname": "Ola",
+    "gender": "f",
+    "id": 7,
+    "lastname": "Chomicz",
+  },
+  Object {
+    "firstname": "Marti",
+    "gender": "f",
+    "id": 10,
+    "lastname": "Chomik",
+  },
+  Object {
+    "firstname": "Karolina",
+    "gender": "f",
+    "id": 4,
+    "lastname": "Kozakiewicz",
+  },
+  Object {
+    "firstname": "Anna",
+    "gender": "f",
+    "id": 9,
+    "lastname": "Nowak",
+  },
+  Object {
+    "firstname": "Michał",
+    "gender": "m",
+    "id": 2,
+    "lastname": "Nowak",
+  },
+  Object {
+    "firstname": "Damian",
+    "gender": "m",
+    "id": 5,
+    "lastname": "Strojny",
+  },
+  Object {
+    "firstname": "Edyta",
+    "gender": "f",
+    "id": 1,
+    "lastname": "Tokarczyk",
+  },
+  Object {
+    "firstname": "Monika",
+    "gender": "f",
+    "id": 8,
+    "lastname": "Tokarczyk",
+  },
+]
+`;
+
+exports[`Tests for adding new player addNewPlayer method test for adding one player 2`] = `"[{\\"id\\":3,\\"firstname\\":\\"Wojciech\\",\\"lastname\\":\\"Bańczyk\\",\\"gender\\":\\"m\\",\\"top\\":5,\\"bonus\\":5},{\\"id\\":4,\\"firstname\\":\\"Karolina\\",\\"lastname\\":\\"Kozakiewicz\\",\\"gender\\":\\"f\\",\\"top\\":4,\\"bonus\\":5},{\\"id\\":2,\\"firstname\\":\\"Michał\\",\\"lastname\\":\\"Nowak\\",\\"gender\\":\\"m\\",\\"top\\":3,\\"bonus\\":5},{\\"id\\":5,\\"firstname\\":\\"Damian\\",\\"lastname\\":\\"Strojny\\",\\"gender\\":\\"m\\",\\"top\\":3,\\"bonus\\":4},{\\"id\\":1,\\"firstname\\":\\"Edyta\\",\\"lastname\\":\\"Tokarczyk\\",\\"gender\\":\\"f\\",\\"top\\":2,\\"bonus\\":3},{\\"id\\":6,\\"firstname\\":\\"Jakub\\",\\"lastname\\":\\"Bogucki\\",\\"gender\\":\\"m\\",\\"top\\":1,\\"bonus\\":2},{\\"id\\":7,\\"firstname\\":\\"Ola\\",\\"lastname\\":\\"Chomicz\\",\\"gender\\":\\"f\\",\\"top\\":0,\\"bonus\\":0},{\\"id\\":8,\\"firstname\\":\\"Monika\\",\\"lastname\\":\\"Tokarczyk\\",\\"gender\\":\\"f\\",\\"top\\":0,\\"bonus\\":0},{\\"id\\":9,\\"firstname\\":\\"Anna\\",\\"lastname\\":\\"Nowak\\",\\"gender\\":\\"f\\",\\"top\\":0,\\"bonus\\":0},{\\"id\\":10,\\"firstname\\":\\"Marti\\",\\"lastname\\":\\"Chomik\\",\\"gender\\":\\"f\\",\\"top\\":0,\\"bonus\\":0}]"`;
+
 exports[`getPlayersSortedByPoints female test 1`] = `
 Array [
   Object {

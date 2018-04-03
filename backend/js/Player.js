@@ -46,6 +46,25 @@ class Player {
         return this.players;
     }
 
+    async addNewPlayers(newPlayers) {
+        await this.loadPlayers();
+
+        let maxPlayerId = this.players.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
+
+        //TODO validate new player?
+        newPlayers.forEach(player => {
+            this.players.push({id: ++maxPlayerId, firstname : player.firstname, lastname: player.lastname, gender: player.gender, top: 0, bonus: 0});
+        });
+
+        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.players));
+        // TODO writing to file synchronize?
+        // TODO catch error?
+
+
+    }
+
+
+
 }
 
 module.exports = Player;
