@@ -65,7 +65,7 @@ class Player {
         let sortedPlayers = this.players.sort((player1, player2) => {
             const point1 = player1.top * 3 + player1.bonus;
             const point2 = player2.top * 3 + player2.bonus;
-            return point1 - point2;
+            return point2 - point1;
         });
 
         if (gender) {
@@ -78,17 +78,17 @@ class Player {
     filterByGender(playersArray, gender) {
         gender = gender.toLowerCase();
 
-        if (gender === "female" || gender === "f") {
-            gender = 'female';
+        if (gender === 'female' || gender === 'f') {
+            gender = 'f';
 
-        } else if (gender === "male" || gender === "m") {
-            gender = 'male';
+        } else if (gender === "male" || gender === 'm') {
+            gender = 'm';
         } else {
             return undefined;
         }
 
         let filteredPlayers = [];
-        playersArray.array.forEach(player => {
+        playersArray.forEach(player => {
             if (player.gender === gender) {
                 filteredPlayers.push(player);
             }
