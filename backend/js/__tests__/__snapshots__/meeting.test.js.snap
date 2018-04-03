@@ -109,3 +109,160 @@ Array [
   },
 ]
 `;
+
+exports[`Tests for adding meeting addNewMeeting adding single future meeting 1`] = `
+Array [
+  Object {
+    "date": "13.01.2018",
+    "id": 1,
+    "name": "Pierwsze starcie wojowników",
+    "numOfBoulders": 5,
+    "players": Array [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+    ],
+    "results": Array [
+      Object {
+        "bonus": 3,
+        "playerID": 1,
+        "top": 2,
+      },
+      Object {
+        "bonus": 5,
+        "playerID": 2,
+        "top": 3,
+      },
+      Object {
+        "bonus": 5,
+        "playerID": 3,
+        "top": 5,
+      },
+      Object {
+        "bonus": 5,
+        "playerID": 4,
+        "top": 4,
+      },
+      Object {
+        "bonus": 4,
+        "playerID": 5,
+        "top": 3,
+      },
+      Object {
+        "bonus": 2,
+        "playerID": 6,
+        "top": 1,
+      },
+    ],
+  },
+  Object {
+    "date": "13.05.2018",
+    "id": 2,
+    "name": "Boulder Warriors Challenge - długa walka",
+    "numOfBoulders": 40,
+    "players": Array [
+      1,
+      9,
+    ],
+    "results": Array [],
+  },
+  Object {
+    "date": "5.06.2018",
+    "id": 3,
+    "name": "new meeting",
+    "numOfBoulders": 10,
+    "players": Array [],
+    "results": Array [],
+  },
+]
+`;
+
+exports[`Tests for adding meeting addNewMeeting adding single future meeting 2`] = `"[{\\"id\\":1,\\"name\\":\\"Pierwsze starcie wojowników\\",\\"date\\":\\"13.01.2018\\",\\"numOfBoulders\\":5,\\"players\\":[1,2,3,4,5,6,7],\\"results\\":[{\\"playerID\\":1,\\"top\\":2,\\"bonus\\":3},{\\"playerID\\":2,\\"top\\":3,\\"bonus\\":5},{\\"playerID\\":3,\\"top\\":5,\\"bonus\\":5},{\\"playerID\\":4,\\"top\\":4,\\"bonus\\":5},{\\"playerID\\":5,\\"top\\":3,\\"bonus\\":4},{\\"playerID\\":6,\\"top\\":1,\\"bonus\\":2}]},{\\"id\\":2,\\"name\\":\\"Boulder Warriors Challenge - długa walka\\",\\"date\\":\\"13.05.2018\\",\\"numOfBoulders\\":40,\\"players\\":[1,9],\\"results\\":[]},{\\"id\\":3,\\"name\\":\\"new meeting\\",\\"date\\":\\"5.06.2018\\",\\"numOfBoulders\\":10,\\"players\\":[],\\"results\\":[]}]"`;
+
+exports[`Tests for adding meeting addNewMeeting adding single meeting with some players 1`] = `
+Array [
+  Object {
+    "date": "13.01.2018",
+    "id": 1,
+    "name": "Pierwsze starcie wojowników",
+    "numOfBoulders": 5,
+    "players": Array [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+    ],
+    "results": Array [
+      Object {
+        "bonus": 3,
+        "playerID": 1,
+        "top": 2,
+      },
+      Object {
+        "bonus": 5,
+        "playerID": 2,
+        "top": 3,
+      },
+      Object {
+        "bonus": 5,
+        "playerID": 3,
+        "top": 5,
+      },
+      Object {
+        "bonus": 5,
+        "playerID": 4,
+        "top": 4,
+      },
+      Object {
+        "bonus": 4,
+        "playerID": 5,
+        "top": 3,
+      },
+      Object {
+        "bonus": 2,
+        "playerID": 6,
+        "top": 1,
+      },
+    ],
+  },
+  Object {
+    "date": "13.05.2018",
+    "id": 2,
+    "name": "Boulder Warriors Challenge - długa walka",
+    "numOfBoulders": 40,
+    "players": Array [
+      1,
+      9,
+    ],
+    "results": Array [],
+  },
+  Object {
+    "date": "5.06.2018",
+    "id": 3,
+    "name": "new meeting",
+    "numOfBoulders": 10,
+    "players": Array [],
+    "results": Array [],
+  },
+  Object {
+    "date": "5.06.2018",
+    "id": 4,
+    "name": "new meeting",
+    "numOfBoulders": 10,
+    "players": Array [
+      1,
+      2,
+    ],
+    "results": Array [],
+  },
+]
+`;
+
+exports[`Tests for adding meeting addNewMeeting adding single meeting with some players 2`] = `"[{\\"id\\":1,\\"name\\":\\"Pierwsze starcie wojowników\\",\\"date\\":\\"13.01.2018\\",\\"numOfBoulders\\":5,\\"players\\":[1,2,3,4,5,6,7],\\"results\\":[{\\"playerID\\":1,\\"top\\":2,\\"bonus\\":3},{\\"playerID\\":2,\\"top\\":3,\\"bonus\\":5},{\\"playerID\\":3,\\"top\\":5,\\"bonus\\":5},{\\"playerID\\":4,\\"top\\":4,\\"bonus\\":5},{\\"playerID\\":5,\\"top\\":3,\\"bonus\\":4},{\\"playerID\\":6,\\"top\\":1,\\"bonus\\":2}]},{\\"id\\":2,\\"name\\":\\"Boulder Warriors Challenge - długa walka\\",\\"date\\":\\"13.05.2018\\",\\"numOfBoulders\\":40,\\"players\\":[1,9],\\"results\\":[]},{\\"id\\":3,\\"name\\":\\"new meeting\\",\\"date\\":\\"5.06.2018\\",\\"numOfBoulders\\":10,\\"players\\":[],\\"results\\":[]},{\\"id\\":4,\\"name\\":\\"new meeting\\",\\"date\\":\\"5.06.2018\\",\\"numOfBoulders\\":10,\\"players\\":[1,2],\\"results\\":[]}]"`;

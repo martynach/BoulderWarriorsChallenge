@@ -7,10 +7,18 @@ const player = new Player();
 const FilterUtil = require('./customUtils/FilterUtil');
 const SortUtil = require('./customUtils/SortUtil');
 
+const Joi = require('joi');
+
 class Meeting {
 
     constructor() {
         this.filepath = path.join(__dirname, './../data/meetings.json');
+        this.meetingSchema = Joi.object().keys({
+            name: Joi.string().min(3).max(30).required(),
+            date: Joi.string().min(6).max(30).required(),
+            numOfBoulders: Joi.number().integer().min(0).max(100).required(),
+            players: Joi.array().items(Joi.number()).required()
+        });
     }
 
     async loadMeetings() {
@@ -53,6 +61,47 @@ class Meeting {
         }
 
         return resultsWithPlayersData;
+    }
+
+    async addNewMeeting(newMeeting) {
+        await this.loadMeetings();
+
+        if(!newMeeting.name || newMeeting.length === 0 || !newMeeting.date || newMeeting.date.length === 0) {
+            return false;
+        }
+
+        if(!newMeeting.players) {
+            newMeeting.players = [];
+        }
+
+        if(!this.validateNewMeetingProperties(newMeeting)) {
+            return false;
+        }
+
+        if(!this.validateNewMeetingPlayersIds(newMeeting)) {
+            return false;
+        }
+       
+        let maxMeetingID = this.meetings.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
+        this.meetings.push({id: ++maxMeetingID, name: newMeeting.name, date: newMeeting.date, numOfBoulders: newMeeting.numOfBoulders, players: newMeeting.players, results: []})
+
+        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.meetings));
+        //TODO write to file synchronously
+        return true;
+    }
+
+
+    validateNewMeetingProperties(newMeeting) {
+        const { error } = Joi.validate(newMeeting, this.meetingSchema);
+        if (error) {
+            return false;
+        }
+        return true;
+    }
+
+    validateNewMeetingPlayersIds(newMeeting) {
+        const existingPlayersIds = player.getPlayersIds();
+        return newMeeting.players.every(id => existingPlayersIds.includes(id));
     }
 }
 

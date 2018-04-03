@@ -41,16 +41,15 @@ describe('Tests for adding meeting', () => {
 
     });
 
-    // //TODO
-    // afterEach(async () => {
-    //     await promisify(fs.ulink, tmpFilepath);
-    // });
+    afterEach(async () => {
+        await promisify(fs.unlink, tmpFilepath);
+    });
 
     afterAll(() => {
         meeting.filepath = filepath;
     });
 
-    test('addNewMeeting adding single future event', async () => {
+    test('addNewMeeting adding single future meeting', async () => {
         expect.assertions(3);
 
         const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10 };
@@ -64,10 +63,10 @@ describe('Tests for adding meeting', () => {
         expect(tmpFileContent).toMatchSnapshot();
     });
 
-    test('addNewMeeting adding single future event with some players', async () => {
+    test('addNewMeeting adding single meeting with some players', async () => {
         expect.assertions(3);
 
-        const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1,2] };
+        const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1, 2] };
         const addingResult = await meeting.addNewMeeting(newEvent);
         expect(addingResult).toBeTruthy();
 
@@ -78,14 +77,26 @@ describe('Tests for adding meeting', () => {
         expect(tmpFileContent).toMatchSnapshot();
     });
 
-    test('addNewMeeting adding single future event with incorrect players', async () => {
+    test('addNewMeeting adding single event with incorrect players', async () => {
         expect.assertions(1);
 
-        const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1,2, 200] };
+        const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1, 2, 200] };
         const addingResult = await meeting.addNewMeeting(newEvent);
 
         expect(addingResult).toBeFalsy();
 
     });
+
+    test('addNewMeeting adding single event with incorrect properties', async () => {
+        expect.assertions(1);
+
+        const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, results: 'some result' };
+        const addingResult = await meeting.addNewMeeting(newEvent);
+
+        expect(addingResult).toBeFalsy();
+
+    });
+
+
 
 });

@@ -20,6 +20,11 @@ class Player {
         }
     }
 
+    async getAllInfoAboutPlayers() {
+        await this.loadPlayers();
+        return this.players;
+    }
+
     async getAllPlayers(gender) {
         await this.loadPlayers();
 
@@ -59,8 +64,11 @@ class Player {
         await promisify(fs.writeFile, this.filepath, JSON.stringify(this.players));
         // TODO writing to file synchronize?
         // TODO catch error?
+    }
 
-
+    getPlayersIds() {
+        this.loadPlayers();
+        return this.players.map(player => player.id);
     }
 
 
