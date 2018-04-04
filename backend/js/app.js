@@ -49,7 +49,7 @@ app.post('/new_player', async (req, res) => {
 });
 
 //adding new meeting
-app.post('/new_meeting', async (req, res) => {
+app.post('/meetings/new_meeting', async (req, res) => {
     try {
         await meeting.addNewMeeting(req.body);
         res.sendStatus(200);
@@ -61,7 +61,7 @@ app.post('/new_meeting', async (req, res) => {
 });
 
 //adding new players to the meeting
-app.post('/meetings/:meetingID/new_player', async (req, res) => {
+app.post('/meetings/new_players', async (req, res) => {
     try {
         await meeting.addNewPlayers(req.body);
         res.sendStatus(200);
@@ -73,7 +73,7 @@ app.post('/meetings/:meetingID/new_player', async (req, res) => {
 });
 
 //adding boulders to the meeting
-app.post('/meetings/:meetingID/new_player', async (req, res) => {
+app.post('/meetings/new_boulders', async (req, res) => {
     try {
         await meeting.addNewBoulders(req.body);
         res.sendStatus(200);
