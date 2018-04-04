@@ -11,26 +11,34 @@ const meeting = new Meeting();
 
 
 
-//lista wszystkich zawodników
+//list of all players
 app.get('/players', async (req, res) => {
     res.send(await player.getAllPlayers(req.query.gender));
     
 });
 
+//list of all players with their points
 app.get('/players/top', async (req, res) => {
     res.send(await player.getPlayersSortedByPoints(req.query.gender));
     
 });
 
-//lista wszystkich eventów
+//list of all meetings
 app.get('/meetings', async (req, res) => {
     res.send(await meeting.getAllMeetings());
 
 });
 
-//lista wyników konkretnych zawodów
+//results from one certain meeting
 app.get('/meetings/:meetingID/results', async (req, res) => {
     res.send(await meeting.getResults(req.params.meetingID, req.query.gender));
+
+});
+
+//adding new players
+app.post('/new_player', async (req, res) => {
+    await player.addNewPlayers(req.body);
+    //TODO info if adding all new players succeeded?
 
 });
 

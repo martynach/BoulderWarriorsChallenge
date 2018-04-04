@@ -49,11 +49,10 @@ describe('Tests for adding meeting', () => {
     });
 
     test('addNewMeeting adding single future meeting', async () => {
-        expect.assertions(3);
+        expect.assertions(2);
 
-        const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10 };
-        const addingResult = await meeting.addNewMeeting(newEvent);
-        expect(addingResult).toBeTruthy();
+        const newMeeting = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10 };
+        await meeting.addNewMeeting(newMeeting);
 
         const meetings = await meeting.getAllMeetings();
         expect(meetings).toMatchSnapshot();
@@ -63,11 +62,10 @@ describe('Tests for adding meeting', () => {
     });
 
     test('addNewMeeting adding single meeting with some players', async () => {
-        expect.assertions(3);
+        expect.assertions(2);
 
-        const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1, 2] };
-        const addingResult = await meeting.addNewMeeting(newEvent);
-        expect(addingResult).toBeTruthy();
+        const newMeeting = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1, 2] };
+        await meeting.addNewMeeting(newMeeting);
 
         const meetings = await meeting.getAllMeetings();
         expect(meetings).toMatchSnapshot();
@@ -79,21 +77,18 @@ describe('Tests for adding meeting', () => {
     test('addNewMeeting adding single event with incorrect players', async () => {
         expect.assertions(1);
 
-        const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1, 2, 200] };
-        const addingResult = await meeting.addNewMeeting(newEvent);
-
-        expect(addingResult).toBeFalsy();
-
+        const newMeeting = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, players: [1, 2, 200] };
+        const expectedError = new Error('Incorrect ids of players: ' + newMeeting.players.toString() + '; ids do not exist in general list of players');
+        await expect(meeting.addNewMeeting(newMeeting)).rejects.toEqual(expectedError);
     });
 
     test('addNewMeeting adding single event with incorrect properties', async () => {
         expect.assertions(1);
 
-        const newEvent = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, results: 'some result' };
-        const addingResult = await meeting.addNewMeeting(newEvent);
+        const newMeeting = { name: 'new meeting', date: '5.06.2018', numOfBoulders: 10, results: 'some result' };
 
-        expect(addingResult).toBeFalsy();
-
+        const expectedError = new Error('Incorrect properties of new meeting playload (name, date, numOfBoulders, players)');
+        await expect(meeting.addNewMeeting(newMeeting)).rejects.toEqual(expectedError);
     });
 
 
@@ -115,6 +110,7 @@ describe('Tests for adding boulders to meeting with given id', () => {
 
     afterEach(async () => {
         await promisify(fs.unlink, tmpFilepath);
+        meeting.meetings = null;
     });
 
     afterAll(() => {
@@ -122,11 +118,10 @@ describe('Tests for adding boulders to meeting with given id', () => {
     });
 
     test('addNewBoulders proper number and meetingId', async () => {
-        expect.assertions(1);
+        expect.assertions(2);
 
-        const newBouldersPayload = { meetingId: 2, numOfBoulders: 5 }
-        const addingResult = await meeting.addNewBoulders(newBouldersPayload);
-        expect(addingResult).toBeTruthy();
+        const newBouldersPayload = { meetingId: 2, numOfBoulders: 5 };
+        await meeting.addNewBoulders(newBouldersPayload);
 
         const numOfBoulders = await meeting.getNumberOfBoulders(newBouldersPayload.meetingId);
         expect(numOfBoulders).toBe(45);
@@ -136,11 +131,10 @@ describe('Tests for adding boulders to meeting with given id', () => {
     });
 
     test('addNewBoulders -removing boulders- proper number and meetingId', async () => {
-        expect.assertions(1);
+        expect.assertions(2);
 
-        const newBouldersPayload = { meetingId: 2, numOfBoulders: -5 }
-        const addingResult = await meeting.addNewBoulders(newBouldersPayload);
-        expect(addingResult).toBeTruthy();
+        const newBouldersPayload = { meetingId: 2, numOfBoulders: -5 };
+        await meeting.addNewBoulders(newBouldersPayload);
 
         const numOfBoulders = await meeting.getNumberOfBoulders(newBouldersPayload.meetingId);
         expect(numOfBoulders).toBe(35);
@@ -149,28 +143,20 @@ describe('Tests for adding boulders to meeting with given id', () => {
         expect(tmpFileContent).toMatchSnapshot();
     });
 
-    test('addNewBoulders bad number of boulders', async () => {
-        expect.assertions(1);
-
-        const newBouldersPayload = { meetingId: 2, numOfBoulders: -45 }
-        const addingResult = await meeting.addNewBoulders(newBouldersPayload);
-        expect(addingResult).toBeFalsy();
-    });
-
     test('addNewBoulders bad meetingId', async () => {
         expect.assertions(1);
 
-        const newBouldersPayload = { meetingId: 5, numOfBoulders: -45 }
-        const addingResult = await meeting.addNewBoulders(newBouldersPayload);
-        expect(addingResult).toBeFalsy();
+        const newBouldersPayload = { meetingId: 5, numOfBoulders: 8 }
+        const expectedError = new Error(`Not existing meetingId: ${newBouldersPayload.meetingId}`);
+        await expect(meeting.addNewBoulders(newBouldersPayload)).rejects.toEqual(expectedError);
     });
 
     test('addNewBoulders inproper payload properties', async () => {
         expect.assertions(1);
 
-        const newBouldersPayload = { meetingId: 5, numOfBoulders: -45, unexpected: 0 }
-        const addingResult = await meeting.addNewBoulders(newBouldersPayload);
-        expect(addingResult).toBeFalsy();
+        const newBouldersPayload = { meetingId: 2, numOfBoulders: 7, unexpected: 0 }
+        const expectedError = new Error('Incorrect properties of new boulder playload (meetingId, numOfBoulders)');
+        await expect(meeting.addNewBoulders(newBouldersPayload)).rejects.toEqual(expectedError);
     });
 
 });
@@ -198,14 +184,13 @@ describe('Tests for adding players to meeting with given id', () => {
     });
 
     test('addNewPlayers proper playersIds and meetingId', async () => {
-        expect.assertions(1);
+        expect.assertions(2);
 
         const newPlayersPayload = { meetingId: 2, players: [2, 3, 4] }
-        const addingResult = await meeting.addNewPlayers(newPlayersPayload);
-        expect(addingResult).toBeTruthy();
+        await meeting.addNewPlayers(newPlayersPayload);
 
-        const players = await meeting.getPlayers(newPlayersPayload.meetingId);
-        expect(players).toEqual([1, 2, 3, 4, 9]);
+        const players = await meeting.getPlayersIds(newPlayersPayload.meetingId);
+        expect(players).toEqual(expect.arrayContaining([1, 2, 3, 4, 9]));
 
         const tmpFileContent = await promisify(fs.readFile, tmpFilepath, 'utf8');
         expect(tmpFileContent).toMatchSnapshot();
@@ -215,24 +200,24 @@ describe('Tests for adding players to meeting with given id', () => {
         expect.assertions(1);
 
         const newPlayersPayload = { meetingId: 4, players: [2, 3, 4] }
-        const addingResult = await meeting.addNewPlayers(newPlayersPayload);
-        expect(addingResult).toBeFalsy();
+        const expectedError = new Error(`Not existing meetingId: ${newPlayersPayload.meetingId}`)
+        await expect(meeting.addNewPlayers(newPlayersPayload)).rejects.toEqual(expectedError);
     });
 
     test('addNewPlayers bad playerIds - they are already in the meeting', async () => {
         expect.assertions(1);
 
         const newPlayersPayload = { meetingId: 2, players: [1, 2] } //player 1 already exists
-        const addingResult = await meeting.addNewPlayers(newPlayersPayload);
-        expect(addingResult).toBeFalsy();
+        const expectedError = new Error('Incorrect ids of players: ' + newPlayersPayload.players.toString() + '; ids already exist in this meeting');
+        await expect(meeting.addNewPlayers(newPlayersPayload)).rejects.toEqual(expectedError);
     });
 
     test('addNewPlayers bad playerIds - the are not in general list of players', async () => {
         expect.assertions(1);
 
         const newPlayersPayload = { meetingId: 2, players: [2, 30] } //player with id 30 does not exist
-        const addingResult = await meeting.addNewPlayers(newPlayersPayload);
-        expect(addingResult).toBeFalsy();
+        const expectedError = new Error('Incorrect ids of players: ' + newPlayersPayload.players.toString() + '; ids do not exist in general list of players');
+        await expect(meeting.addNewPlayers(newPlayersPayload)).rejects.toEqual(expectedError);
     });
 
 });

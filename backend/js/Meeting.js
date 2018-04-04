@@ -19,6 +19,16 @@ class Meeting {
             numOfBoulders: Joi.number().integer().min(0).max(100).required(),
             players: Joi.array().items(Joi.number()).required()
         });
+
+        this.newBouldersSchema = Joi.object().keys({
+            meetingId: Joi.number().integer().required(),
+            numOfBoulders: Joi.number().integer().required(),
+        });
+
+        this.newPlayersSchema = Joi.object().keys({
+            meetingId: Joi.number().integer().required(),
+            players: Joi.array().items(Joi.number()).required()
+        });
     }
 
     async loadMeetings() {
@@ -35,22 +45,18 @@ class Meeting {
 
     async getResults(meetingID, gender) {
         await this.loadMeetings();
+
+        this.validateMeetingId(meetingID);
+
         const meetingElement = this.meetings.find(element => element.id == meetingID);
-        if (!meetingElement) {
-            //  TODO
-            console.log("meetingElement:", meetingElement);
-            //error? bad meetingID?
-            return undefined;
-        }
+
         const results = meetingElement.results;
         const allPlayers = await player.getAllPlayers();
 
         const resultsWithPlayersData = results.map(result => {
             const playerID = result.playerID;
             const player = allPlayers.find(player => player.id === playerID);
-            if (!player) {
-                //  TODO
-            }
+
             return { firstname: player.firstname, lastname: player.lastname, gender: player.gender, top: result.top, bonus: result.bonus };
         });
 
@@ -66,47 +72,113 @@ class Meeting {
     async addNewMeeting(newMeeting) {
         await this.loadMeetings();
 
-        if(!newMeeting.name || newMeeting.length === 0 || !newMeeting.date || newMeeting.date.length === 0) {
-            return false;
-        }
-
-        if(!newMeeting.players) {
+        if (!newMeeting.players) {
             newMeeting.players = [];
         }
 
-        if(!newMeeting.numOfBoulders) {
+        if (!newMeeting.numOfBoulders) {
             newMeeting.numOfBoulders = [];
         }
 
-        if(!this.validateNewMeetingProperties(newMeeting)) {
-            return false;
-        }
+        this.validateNewMeetingProperties(newMeeting);
+        this.validatePlayersIds(newMeeting.players);
 
-        if(!this.validateNewMeetingPlayersIds(newMeeting)) {
-            return false;
-        }
-       
+
         let maxMeetingID = this.meetings.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
-        this.meetings.push({id: ++maxMeetingID, name: newMeeting.name, date: newMeeting.date, numOfBoulders: newMeeting.numOfBoulders, players: newMeeting.players, results: []})
+        this.meetings.push({ id: ++maxMeetingID, name: newMeeting.name, date: newMeeting.date, numOfBoulders: newMeeting.numOfBoulders, players: newMeeting.players, results: [] })
 
         await promisify(fs.writeFile, this.filepath, JSON.stringify(this.meetings));
         //TODO write to file synchronously
-        return true;
+    }
+
+    async addNewBoulders(newBouldersPayload) {
+        await this.loadMeetings();
+
+        this.validateNewBouldersProperties(newBouldersPayload);
+        this.validateMeetingId(newBouldersPayload.meetingId)
+
+        const meetingElement = this.meetings.find(element => element.id === newBouldersPayload.meetingId);
+        meetingElement.numOfBoulders += newBouldersPayload.numOfBoulders;
+
+        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.meetings));
+        //TODO write to file synchronously
+    }
+
+    async getNumberOfBoulders(meetingId) {
+        await this.loadMeetings();
+        this.validateMeetingId(meetingId);
+
+        const meetingElement = this.meetings.find(element => element.id == meetingId);
+        return meetingElement.numOfBoulders;
+    }
+
+    async getPlayersIds(meetingId) {
+        await this.loadMeetings();
+        this.validateMeetingId(meetingId);
+
+        const meetingElement = this.meetings.find(element => element.id == meetingId);
+        return meetingElement.players;
+    }
+
+    async addNewPlayers(newPlayersPayload) {
+        await this.loadMeetings();
+
+        this.validateNewPlayersProperties(newPlayersPayload);
+        this.validateMeetingId(newPlayersPayload.meetingId)
+
+        const meetingElement = this.meetings.find(element => element.id === newPlayersPayload.meetingId);
+        this.validatePlayersIds(newPlayersPayload.players, meetingElement.players);
+
+        meetingElement.players.push(...newPlayersPayload.players);
+
+        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.meetings));
+        //TODO write to file synchronously
     }
 
 
     validateNewMeetingProperties(newMeeting) {
         const { error } = Joi.validate(newMeeting, this.meetingSchema);
         if (error) {
-            return false;
+            throw new Error('Incorrect properties of new meeting playload (name, date, numOfBoulders, players)');
         }
-        return true;
     }
 
-    validateNewMeetingPlayersIds(newMeeting) {
-        const existingPlayersIds = player.getPlayersIds();
-        return newMeeting.players.every(id => existingPlayersIds.includes(id));
+    validatePlayersIds(newPlayerIds, alreadySignedPlayersIds) {
+        const generalListOfPlayersIds = player.getPlayersIds();
+        if (!newPlayerIds.every(id => generalListOfPlayersIds.includes(id))) {
+            throw new Error('Incorrect ids of players: ' + newPlayerIds.toString() + '; ids do not exist in general list of players');
+        }
+
+        if (alreadySignedPlayersIds) {
+            if (newPlayerIds.some(id => alreadySignedPlayersIds.includes(id))) {
+                throw new Error('Incorrect ids of players: ' + newPlayerIds.toString() + '; ids already exist in this meeting');
+            }
+        }
     }
+
+    validateNewBouldersProperties(newBouldersPayload) {
+        const { error } = Joi.validate(newBouldersPayload, this.newBouldersSchema);
+        if (error) {
+            throw new Error('Incorrect properties of new boulder playload (meetingId, numOfBoulders)');
+        }
+    }
+
+    validateMeetingId(meetingId) {
+        const meetingIds = this.meetings.map(meeting => meeting.id);
+        if (!meetingIds.includes(parseInt(meetingId))) {
+            throw new Error(`Not existing meetingId: ${meetingId}`);
+        }
+    }
+
+
+    validateNewPlayersProperties(newPlayersPayload) {
+        const { error } = Joi.validate(newPlayersPayload, this.newPlayersSchema);
+        if (error) {
+            throw new Error('Incorrect properties of new players playload (meetingId, players)');
+        }
+    }
+
+
 }
 
 module.exports = Meeting;
