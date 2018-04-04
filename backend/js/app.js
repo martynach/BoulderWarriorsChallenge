@@ -47,11 +47,13 @@ app.get('/meetings/:meetingID/results', async (req, res) => {
 app.post('/players', async (req, res) => {
     try {
         await player.addNewPlayers(req.body);
-        res.sendStatus(200);
+        res.status(200);
+        res.send({ statusCode: '200', message: 'OK' });
 
     } catch (error) {
-        res.status(error.userError ? 400 : 500);
-        res.send({ message: error.message });
+        const statusCode = error.userError ? 400 : 500;
+        res.status(statusCode);
+        res.send({ statusCode: statusCode, message: error.message });
     }
 
 });

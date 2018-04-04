@@ -13,6 +13,8 @@ body {
     border: black solid 1px;
     margin: 5px;
     padding: 5px;
+    word-wrap: break-word;
+    overflow: auto;
 }
 
 .error {

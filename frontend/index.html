@@ -82,7 +82,7 @@
 
     <b class="endpoint">/players</b>
     </br> Allows to new player to general list of all players that take part in the challenge.</br>
-    Json payload is reqired.</br>
+    Json payload is reqired. Json must consist of an array of objects containing:</br>
     firstname - string</br>
     lastname - string</br>
     gender - string (m for male, f for female)</br>
@@ -93,7 +93,15 @@
         </br>
         <div class="wrapper">
             Your payload:</br>
-            <textarea class="payload" name="payload"></textarea>
+            <textarea class="payload" name="payload">
+[  
+    {  
+        "firstname":"Ola",
+        "lastname":"Pagacz",
+        "gender":"f"
+    }
+]
+                        </textarea>
         </div>
         <div class="wrapper">
             Response:</br>

@@ -20,7 +20,12 @@ async function handleFormSubmit(event) {
         if (payload) {
             JSON.parse(payload);
 
+            console.log("payload:", payload);
+
             response = await fetch(formData.get('endpoint'), {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 method: 'POST',
                 body: payload,
             });
@@ -32,7 +37,7 @@ async function handleFormSubmit(event) {
             throw new Error('Network error');
         }
         const jsonResp = await response.json();
-        responseDiv.innerText = jsonResp;
+        responseDiv.innerText = JSON.stringify(jsonResp);
         responseDiv.classList.remove('error');
 
     } catch (error) {
