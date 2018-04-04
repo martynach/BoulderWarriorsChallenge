@@ -23,13 +23,13 @@ app.use(bodyParser.json());
 //list of all players
 app.get('/players', async (req, res) => {
     res.send(await player.getAllPlayers(req.query.gender));
-    
+
 });
 
 //list of all players with their points
 app.get('/players/top', async (req, res) => {
     res.send(await player.getPlayersSortedByPoints(req.query.gender));
-    
+
 });
 
 //list of all meetings
@@ -46,60 +46,52 @@ app.get('/meetings/:meetingID/results', async (req, res) => {
 //adding new players
 app.post('/players', async (req, res) => {
     try {
-        await player.addNewPlayers(req.body);
-        res.status(200);
-        res.send({ statusCode: '200', message: 'OK' });
-
+        res.send(await player.addNewPlayers(req.body));
     } catch (error) {
         const statusCode = error.userError ? 400 : 500;
         res.status(statusCode);
-        res.send({ statusCode: statusCode, message: error.message });
+        res.send({ message: error.message });
     }
-
 });
 
 //adding new meeting
 app.post('/meetings', async (req, res) => {
     try {
-        await meeting.addNewMeeting(req.body);
-        res.sendStatus(200);
+        res.send(await meeting.addNewMeeting(req.body));
 
     } catch (error) {
-        res.status(error.userError ? 400 : 500);
+        const statusCode = error.userError ? 400 : 500;
+        res.status(statusCode);
         res.send({ message: error.message });
     }
 });
 
 //adding new players to the meeting
-app.post('/meetings/new_players', async (req, res) => {
+app.post('/meetings/:meetingId/players', async (req, res) => {
     try {
-        await meeting.addNewPlayers(req.body);
-        res.sendStatus(200);
-
+        res.send(await meeting.addNewPlayers(req.body, req.params.meetingId));
     } catch (error) {
-        res.status(error.userError ? 400 : 500);
+        const statusCode = error.userError ? 400 : 500;
+        res.status(statusCode);
         res.send({ message: error.message });
     }
 });
 
 //adding boulders to the meeting
-app.post('/meetings/new_boulders', async (req, res) => {
+app.post('/meetings/:meetingId/boulders', async (req, res) => {
     try {
-        await meeting.addNewBoulders(req.body);
-        res.sendStatus(200);
-
+        res.send(await meeting.addNewBoulders(req.body, req.params.meetingId));
     } catch (error) {
-        res.status(error.userError ? 400 : 500);
+        const statusCode = error.userError ? 400 : 500;
+        res.status(statusCode);
         res.send({ message: error.message });
     }
 });
 
-//adding boulders to the meeting
-app.post('/meetings/results', async (req, res) => {
+//setting results of the meeting
+app.patch('/meetings/:meetingId/results', async (req, res) => {
     try {
-        await meeting.setResultsOfMeeting(req.body);
-        res.sendStatus(200);
-
+        res.send(await meeting.setResultsOfMeeting(req.body, req.params.meetingId));
     } catch (error) {
         res.status(error.userError ? 400 : 500);
         res.send({ message: error.message });

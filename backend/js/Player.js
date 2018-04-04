@@ -64,11 +64,16 @@ class Player {
 
         let maxPlayerId = this.players.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
 
+        const newPlayers = [];
         newPlayers.forEach(player => {
-            this.players.push({id: ++maxPlayerId, firstname : player.firstname, lastname: player.lastname, gender: player.gender, top: 0, bonus: 0});
+            newPlayers.push({id: ++maxPlayerId, firstname : player.firstname, lastname: player.lastname, gender: player.gender, top: 0, bonus: 0});
         });
 
+        this.players.push(...newPlayers);
+
         fs.writeFileSync(this.filepath, JSON.stringify(this.players));
+
+        return newPlayers;
     }
 
     getPlayersIds() {

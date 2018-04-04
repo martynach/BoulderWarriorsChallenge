@@ -87,9 +87,12 @@ class Meeting {
 
 
         let maxMeetingID = this.meetings.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
-        this.meetings.push({ id: ++maxMeetingID, name: newMeeting.name, date: newMeeting.date, numOfBoulders: newMeeting.numOfBoulders, players: newMeeting.players, results: [] })
+        const newMeeting = { id: ++maxMeetingID, name: newMeeting.name, date: newMeeting.date, numOfBoulders: newMeeting.numOfBoulders, players: newMeeting.players, results: [] };
+        this.meetings.push(newMeeting);
 
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
+
+        return newMeeting;
     }
 
     async addNewBoulders(newBouldersPayload, meetingId) {
@@ -102,6 +105,8 @@ class Meeting {
         meetingElement.numOfBoulders += newBouldersPayload.numOfBoulders;
 
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
+
+        return meetingElement;
     }
 
     async getNumberOfBoulders(meetingId) {
@@ -133,6 +138,8 @@ class Meeting {
         meetingElement.players.push(...newPlayersPayload);
 
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
+
+        return meetingElement;
     }
 
     async setResultsOfMeeting(newResultsPayload, meetingId) {
@@ -147,6 +154,7 @@ class Meeting {
 
         meetingElement.results = newResultsPayload;
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
+        return meetingElement;
     }
 
 
