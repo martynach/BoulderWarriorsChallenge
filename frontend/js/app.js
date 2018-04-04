@@ -20,8 +20,6 @@ async function handleFormSubmit(event) {
         if (payload) {
             JSON.parse(payload);
 
-            console.log("payload:", payload);
-
             response = await fetch(formData.get('endpoint'), {
                 headers: {
                     'Content-Type': 'application/json'
