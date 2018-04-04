@@ -2,7 +2,6 @@ const fs = require('fs');
 const promisify = require('./utils/promisify');
 const path = require("path");
 const Player = require('./Player');
-const player = new Player(); 
 
 const filterPlayers = require('./utils/filterPlayers');
 const comparePlayers = require('./utils/comparePlayers');
@@ -12,6 +11,7 @@ const Joi = require('joi');
 class Meeting {
 
     constructor() {
+        this.player = new Player(); 
         this.filepath = path.join(__dirname, './../data/meetings.json');
         this.meetingSchema = Joi.object().keys({
             name: Joi.string().min(3).max(30).required(),
@@ -51,7 +51,7 @@ class Meeting {
         const meetingElement = this.meetings.find(element => element.id == meetingID);
 
         const results = meetingElement.results;
-        const allPlayers = await player.getAllPlayers();
+        const allPlayers = await this.player.getAllPlayers();
 
         const resultsWithPlayersData = results.map(result => {
             const playerID = result.playerID;
@@ -146,7 +146,7 @@ class Meeting {
     }
 
     validatePlayersIds(newPlayerIds, alreadySignedPlayersIds) {
-        const generalListOfPlayersIds = player.getPlayersIds();
+        const generalListOfPlayersIds = this.player.getPlayersIds();
         if (!newPlayerIds.every(id => generalListOfPlayersIds.includes(id))) {
             let userError = Error('Incorrect ids of players: ' + newPlayerIds.toString() + '; ids do not exist in general list of players');
             userError.userError = true;

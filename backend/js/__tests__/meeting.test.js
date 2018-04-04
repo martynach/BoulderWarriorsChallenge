@@ -1,8 +1,12 @@
 const Meeting = require('./../Meeting');
 const meeting = new Meeting();
+const Player = require('./../Player');
+const player = new Player();
 const path = require("path");
-const filepath = path.join(__dirname, './test_data/meetings.json');
-meeting.filepath = filepath;
+const meetingsFilepath = path.join(__dirname, './test_data/meetings.json');;
+meeting.filepath = meetingsFilepath;
+player.filepath = path.join(__dirname, './test_data/players.json');
+meeting.player = player;
 
 const fs = require('fs');
 const promisify = require('./../utils/promisify');
@@ -36,7 +40,7 @@ describe('Tests for adding meeting', () => {
     });
 
     beforeEach(async () => {
-        await promisify(fs.copyFile, filepath, tmpFilepath);
+        await promisify(fs.copyFile, meetingsFilepath, tmpFilepath);
 
     });
 
@@ -45,7 +49,7 @@ describe('Tests for adding meeting', () => {
     });
 
     afterAll(() => {
-        meeting.filepath = filepath;
+        meeting.filepath = meetingsFilepath;
     });
 
     test('addNewMeeting adding single future meeting', async () => {
@@ -104,7 +108,7 @@ describe('Tests for adding boulders to meeting with given id', () => {
     });
 
     beforeEach(async () => {
-        await promisify(fs.copyFile, filepath, tmpFilepath);
+        await promisify(fs.copyFile, meetingsFilepath, tmpFilepath);
 
     });
 
@@ -171,7 +175,7 @@ describe('Tests for adding players to meeting with given id', () => {
     });
 
     beforeEach(async () => {
-        await promisify(fs.copyFile, filepath, tmpFilepath);
+        await promisify(fs.copyFile, meetingsFilepath, tmpFilepath);
 
     });
 
