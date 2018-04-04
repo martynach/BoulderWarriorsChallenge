@@ -12,13 +12,13 @@ Try it out:
 
 ## Setting development environment:
 
-1. Install dependencie
+1. Install dependencies:
 ### yarn install
 
-2. Start server
+2. Start server:
 ### yarn start
 
 When server is ready go to your browser and open http://localhost:3000
 
-3. Run tests
+3. Run tests:
 ### yarn test
