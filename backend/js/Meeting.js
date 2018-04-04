@@ -29,6 +29,15 @@ class Meeting {
             meetingId: Joi.number().integer().required(),
             players: Joi.array().items(Joi.number()).required()
         });
+
+        this.newResultsSchema = Joi.object().keys({
+            meetingId: Joi.number().integer().required(),
+            results: Joi.array().items(Joi.object().keys({
+                playerID: Joi.number().integer().required(),
+                top: Joi.number().integer().required(),
+                bonus: Joi.number().integer().required()
+            })).required()
+        }); 
     }
 
     async loadMeetings() {
@@ -135,6 +144,17 @@ class Meeting {
         //TODO write to file synchronously
     }
 
+    async setResultsOfMeeting(newResultsPayload) {
+        await this.loadMeetings();
+
+        this.validateNewResultsProperties(newResultsPayload);
+
+        const meetingElement = this.meetings.find(element => element.id === newResultsPayload.meetingId);
+
+        meetingElement.results = newResultsPayload.results;
+        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.meetings));
+    }
+
 
     validateNewMeetingProperties(newMeeting) {
         const { error } = Joi.validate(newMeeting, this.meetingSchema);
@@ -185,6 +205,15 @@ class Meeting {
         const { error } = Joi.validate(newPlayersPayload, this.newPlayersSchema);
         if (error) {
             let userError = new Error('Incorrect properties of new players playload (meetingId, players)');
+            userError.userError = true;
+            throw userError;
+        }
+    }
+
+    validateNewResultsProperties(newResultsPayload) {
+        const { error } = Joi.validate(newResultsPayload, this.newResultsSchema);
+        if (error) {
+            let userError = new Error('Incorrect properties of new results playload - object (meetingId, results array {playerID, top, bonus}) is required');
             userError.userError = true;
             throw userError;
         }
