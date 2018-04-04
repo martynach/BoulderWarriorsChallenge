@@ -5,12 +5,18 @@ const path = require("path");
 const filterPlayers = require('./utils/filterPlayers');
 const comparePlayers = require('./utils/comparePlayers');
 
-
+const Joi = require('joi');
 
 class Player {
 
     constructor(filepath) {
         this.filepath = path.join(__dirname, './../data/players.json');
+        //TODO to check
+        this.newPlayersSchema = Joi.array().items({
+            firstname: Joi.string().min(3).max(30).required(),
+            lastname: Joi.string().min(3).max(30).required(),
+            gender: Joi.string().valid('f','m').required(),
+        });
     }
 
     async loadPlayers() {
@@ -54,9 +60,10 @@ class Player {
     async addNewPlayers(newPlayers) {
         await this.loadPlayers();
 
+        this.validateNewPlayersProperties(newPlayers);
+
         let maxPlayerId = this.players.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
 
-        //TODO validate new player?
         newPlayers.forEach(player => {
             this.players.push({id: ++maxPlayerId, firstname : player.firstname, lastname: player.lastname, gender: player.gender, top: 0, bonus: 0});
         });
@@ -71,7 +78,14 @@ class Player {
         return this.players.map(player => player.id);
     }
 
-
+    validateNewPlayersProperties(newPlayersPayload) {
+        const { error } = Joi.validate(newPlayersPayload, this.newPlayersSchema);
+        if (error) {
+            let userError = new Error('Incorrect properties of new players playload - array of objects {firstname, lastname, gender} required');
+            userError.userError = true;
+            throw userError;
+        }
+    }
 
 }
 
