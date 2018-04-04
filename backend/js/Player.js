@@ -11,7 +11,7 @@ class Player {
 
     constructor(filepath) {
         this.filepath = path.join(__dirname, './../data/players.json');
-        //TODO to check
+
         this.newPlayersSchema = Joi.array().items({
             firstname: Joi.string().min(3).max(30).required(),
             lastname: Joi.string().min(3).max(30).required(),
@@ -68,9 +68,7 @@ class Player {
             this.players.push({id: ++maxPlayerId, firstname : player.firstname, lastname: player.lastname, gender: player.gender, top: 0, bonus: 0});
         });
 
-        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.players));
-        // TODO writing to file synchronize?
-        // TODO catch error?
+        fs.writeFileSync(this.filepath, JSON.stringify(this.players));
     }
 
     getPlayersIds() {

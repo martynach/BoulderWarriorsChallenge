@@ -96,8 +96,7 @@ class Meeting {
         let maxMeetingID = this.meetings.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
         this.meetings.push({ id: ++maxMeetingID, name: newMeeting.name, date: newMeeting.date, numOfBoulders: newMeeting.numOfBoulders, players: newMeeting.players, results: [] })
 
-        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.meetings));
-        //TODO write to file synchronously
+        fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
     }
 
     async addNewBoulders(newBouldersPayload) {
@@ -109,8 +108,7 @@ class Meeting {
         const meetingElement = this.meetings.find(element => element.id === newBouldersPayload.meetingId);
         meetingElement.numOfBoulders += newBouldersPayload.numOfBoulders;
 
-        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.meetings));
-        //TODO write to file synchronously
+        fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
     }
 
     async getNumberOfBoulders(meetingId) {
@@ -140,19 +138,22 @@ class Meeting {
 
         meetingElement.players.push(...newPlayersPayload.players);
 
-        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.meetings));
-        //TODO write to file synchronously
+        fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
     }
 
     async setResultsOfMeeting(newResultsPayload) {
         await this.loadMeetings();
 
-        this.validateNewResultsProperties(newResultsPayload);
+        await this.validateNewResultsProperties(newResultsPayload);
+
+        await this.validateMeetingId(newResultsPayload.meetingId);
+
+        await this.validateValuesOfResults(newResultsPayload);
 
         const meetingElement = this.meetings.find(element => element.id === newResultsPayload.meetingId);
 
         meetingElement.results = newResultsPayload.results;
-        await promisify(fs.writeFile, this.filepath, JSON.stringify(this.meetings));
+        fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
     }
 
 
@@ -217,6 +218,28 @@ class Meeting {
             userError.userError = true;
             throw userError;
         }
+    }
+
+    async validateValuesOfResults(newResultsPayload) {
+        const meetingElement = this.meetings.find(element => element.id === newResultsPayload.meetingId);
+
+        const playerIds = await this.getPlayersIds(newResultsPayload.meetingId);
+
+        newResultsPayload.results.forEach(element => {
+            if (!playerIds.includes(element.playerID)) {
+                throw new Error(`Incorrect player id : ${element.playerID}`);
+            }
+
+            if (element.top > meetingElement.numOfBoulders || element.top < 0) {
+                throw new Error(`Incorrect value of top : ${element.top} for player with id: ${element.playerID}`);
+            }
+
+            if (element.bonus > meetingElement.numOfBoulders || element.bonus < 0) {
+                throw new Error(`Incorrect value of bonus : ${element.bonus} for player with id: ${element.playerID}`);
+            }
+        });
+
+
     }
 
 

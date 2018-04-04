@@ -284,5 +284,50 @@ describe('Tests for setting results of meeting with given id', () => {
 
     });
 
+    test('setResultsOfMeeting incorrect value of playerID', async () => {
+        expect.assertions(1);
+
+        const newResultsPayload = {
+            meetingId: 2, results: [
+                { playerID: 2, top: 30, bonus: 40 },
+                { playerID: 9, top: 34, bonus: 39 },
+            ]
+        };
+
+        const expectedError = new Error(`Incorrect player id : 2`);
+        await expect(meeting.setResultsOfMeeting(newResultsPayload)).rejects.toEqual(expectedError);
+
+    });
+
+    test('setResultsOfMeeting incorrect value of top', async () => {
+        expect.assertions(1);
+
+        const newResultsPayload = {
+            meetingId: 2, results: [
+                { playerID: 1, top: 50, bonus: 40 },
+                { playerID: 9, top: 34, bonus: 39 },
+            ]
+        };
+
+        const expectedError = new Error(`Incorrect value of top : 50 for player with id: 1`);
+        await expect(meeting.setResultsOfMeeting(newResultsPayload)).rejects.toEqual(expectedError);
+
+    });
+
+    test('setResultsOfMeeting incorrect value of bonus', async () => {
+        expect.assertions(1);
+
+        const newResultsPayload = {
+            meetingId: 2, results: [
+                { playerID: 1, top: 35, bonus: 40 },
+                { playerID: 9, top: 34, bonus: -3 },
+            ]
+        };
+
+        const expectedError = new Error(`Incorrect value of bonus : -3 for player with id: 9`);
+        await expect(meeting.setResultsOfMeeting(newResultsPayload)).rejects.toEqual(expectedError);
+
+    });
+
 
 });

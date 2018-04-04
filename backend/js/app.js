@@ -94,4 +94,16 @@ app.post('/meetings/new_boulders', async (req, res) => {
     }
 });
 
+//adding boulders to the meeting
+app.post('/meetings/results', async (req, res) => {
+    try {
+        await meeting.setResultsOfMeeting(req.body);
+        res.sendStatus(200);
+
+    } catch (error) {
+        res.status(error.userError ? 400 : 500);
+        res.send({ message: error.message });
+    }
+});
+
 module.exports = app
