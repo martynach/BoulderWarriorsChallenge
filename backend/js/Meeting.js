@@ -139,19 +139,25 @@ class Meeting {
     validateNewMeetingProperties(newMeeting) {
         const { error } = Joi.validate(newMeeting, this.meetingSchema);
         if (error) {
-            throw new Error('Incorrect properties of new meeting playload (name, date, numOfBoulders, players)');
+            let userError = new Error('Incorrect properties of new meeting playload (name, date, numOfBoulders, players)');
+            userError.userError = true;
+            throw userError;
         }
     }
 
     validatePlayersIds(newPlayerIds, alreadySignedPlayersIds) {
         const generalListOfPlayersIds = player.getPlayersIds();
         if (!newPlayerIds.every(id => generalListOfPlayersIds.includes(id))) {
-            throw new Error('Incorrect ids of players: ' + newPlayerIds.toString() + '; ids do not exist in general list of players');
+            let userError = Error('Incorrect ids of players: ' + newPlayerIds.toString() + '; ids do not exist in general list of players');
+            userError.userError = true;
+            throw userError;
         }
 
         if (alreadySignedPlayersIds) {
             if (newPlayerIds.some(id => alreadySignedPlayersIds.includes(id))) {
-                throw new Error('Incorrect ids of players: ' + newPlayerIds.toString() + '; ids already exist in this meeting');
+                let userError = new Error('Incorrect ids of players: ' + newPlayerIds.toString() + '; ids already exist in this meeting');
+                userError.userError = true;
+                throw userError;
             }
         }
     }
@@ -159,14 +165,18 @@ class Meeting {
     validateNewBouldersProperties(newBouldersPayload) {
         const { error } = Joi.validate(newBouldersPayload, this.newBouldersSchema);
         if (error) {
-            throw new Error('Incorrect properties of new boulder playload (meetingId, numOfBoulders)');
+            let userError = new Error('Incorrect properties of new boulder playload (meetingId, numOfBoulders)');
+            userError.userError = true;
+            throw userError;
         }
     }
 
     validateMeetingId(meetingId) {
         const meetingIds = this.meetings.map(meeting => meeting.id);
         if (!meetingIds.includes(parseInt(meetingId))) {
-            throw new Error(`Not existing meetingId: ${meetingId}`);
+            let userError = new Error(`Not existing meetingId: ${meetingId}`);
+            userError.userError = true;
+            throw userError;
         }
     }
 
@@ -175,6 +185,8 @@ class Meeting {
         const { error } = Joi.validate(newPlayersPayload, this.newPlayersSchema);
         if (error) {
             throw new Error('Incorrect properties of new players playload (meetingId, players)');
+            userError.userError = true;
+            throw userError;
         }
     }
 

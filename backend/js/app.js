@@ -37,9 +37,51 @@ app.get('/meetings/:meetingID/results', async (req, res) => {
 
 //adding new players
 app.post('/new_player', async (req, res) => {
-    await player.addNewPlayers(req.body);
-    //TODO info if adding all new players succeeded?
+    try {
+        await player.addNewPlayers(req.body);
+        res.sendStatus(200);
 
+    } catch (error) {
+        res.status(error.userError ? 400 : 500);
+        res.send({ message: error.message });
+    }
+
+});
+
+//adding new meeting
+app.post('/new_meeting', async (req, res) => {
+    try {
+        await meeting.addNewMeeting(req.body);
+        res.sendStatus(200);
+
+    } catch (error) {
+        res.status(error.userError ? 400 : 500);
+        res.send({ message: error.message });
+    }
+});
+
+//adding new players to the meeting
+app.post('/meetings/:meetingID/new_player', async (req, res) => {
+    try {
+        await meeting.addNewPlayers(req.body);
+        res.sendStatus(200);
+
+    } catch (error) {
+        res.status(error.userError ? 400 : 500);
+        res.send({ message: error.message });
+    }
+});
+
+//adding boulders to the meeting
+app.post('/meetings/:meetingID/new_player', async (req, res) => {
+    try {
+        await meeting.addNewBoulders(req.body);
+        res.sendStatus(200);
+
+    } catch (error) {
+        res.status(error.userError ? 400 : 500);
+        res.send({ message: error.message });
+    }
 });
 
 
