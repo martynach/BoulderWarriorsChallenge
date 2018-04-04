@@ -114,10 +114,10 @@ describe('Tests for adding boulders to meeting with given id', () => {
     test('addNewBoulders proper number and meetingId', async () => {
         expect.assertions(2);
 
-        const newBouldersPayload = { meetingId: 2, numOfBoulders: 5 };
-        await meeting.addNewBoulders(newBouldersPayload);
+        const newBouldersPayload = { numOfBoulders: 5 };
+        await meeting.addNewBoulders(newBouldersPayload, 2);
 
-        const numOfBoulders = await meeting.getNumberOfBoulders(newBouldersPayload.meetingId);
+        const numOfBoulders = await meeting.getNumberOfBoulders(2);
         expect(numOfBoulders).toBe(45);
 
         const tmpFileContent = await promisify(fs.readFile, tmpFilepath, 'utf8');
@@ -127,10 +127,10 @@ describe('Tests for adding boulders to meeting with given id', () => {
     test('addNewBoulders -removing boulders- proper number and meetingId', async () => {
         expect.assertions(2);
 
-        const newBouldersPayload = { meetingId: 2, numOfBoulders: -5 };
-        await meeting.addNewBoulders(newBouldersPayload);
+        const newBouldersPayload = {numOfBoulders: -5 };
+        await meeting.addNewBoulders(newBouldersPayload, 2);
 
-        const numOfBoulders = await meeting.getNumberOfBoulders(newBouldersPayload.meetingId);
+        const numOfBoulders = await meeting.getNumberOfBoulders(2);
         expect(numOfBoulders).toBe(35);
 
         const tmpFileContent = await promisify(fs.readFile, tmpFilepath, 'utf8');
@@ -140,17 +140,17 @@ describe('Tests for adding boulders to meeting with given id', () => {
     test('addNewBoulders bad meetingId', async () => {
         expect.assertions(1);
 
-        const newBouldersPayload = { meetingId: 5, numOfBoulders: 8 }
-        const expectedError = new Error(`Not existing meetingId: ${newBouldersPayload.meetingId}`);
-        await expect(meeting.addNewBoulders(newBouldersPayload)).rejects.toEqual(expectedError);
+        const newBouldersPayload = { numOfBoulders: 8 }
+        const expectedError = new Error(`Not existing meetingId: 5`);
+        await expect(meeting.addNewBoulders(newBouldersPayload, 5)).rejects.toEqual(expectedError);
     });
 
     test('addNewBoulders inproper payload properties', async () => {
         expect.assertions(1);
 
-        const newBouldersPayload = { meetingId: 2, numOfBoulders: 7, unexpected: 0 }
-        const expectedError = new Error('Incorrect properties of new boulder playload (meetingId, numOfBoulders)');
-        await expect(meeting.addNewBoulders(newBouldersPayload)).rejects.toEqual(expectedError);
+        const newBouldersPayload = { numOfBoulders: 7, unexpected: 0 }
+        const expectedError = new Error('Incorrect properties of new boulder playload - object containing numOfBoulders required');
+        await expect(meeting.addNewBoulders(newBouldersPayload, 2)).rejects.toEqual(expectedError);
     });
 
 });

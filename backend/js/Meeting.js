@@ -21,7 +21,6 @@ class Meeting {
         });
 
         this.newBouldersSchema = Joi.object().keys({
-            meetingId: Joi.number().integer().required(),
             numOfBoulders: Joi.number().integer().required(),
         });
 
@@ -96,13 +95,13 @@ class Meeting {
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
     }
 
-    async addNewBoulders(newBouldersPayload) {
+    async addNewBoulders(newBouldersPayload, meetingId) {
         await this.loadMeetings();
 
         this.validateNewBouldersProperties(newBouldersPayload);
-        this.validateMeetingId(newBouldersPayload.meetingId)
+        this.validateMeetingId(meetingId)
 
-        const meetingElement = this.meetings.find(element => element.id === newBouldersPayload.meetingId);
+        const meetingElement = this.meetings.find(element => element.id === meetingId);
         meetingElement.numOfBoulders += newBouldersPayload.numOfBoulders;
 
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
@@ -184,7 +183,7 @@ class Meeting {
     validateNewBouldersProperties(newBouldersPayload) {
         const { error } = Joi.validate(newBouldersPayload, this.newBouldersSchema);
         if (error) {
-            let userError = new Error('Incorrect properties of new boulder playload (meetingId, numOfBoulders)');
+            let userError = new Error('Incorrect properties of new boulder playload - object containing numOfBoulders required');
             userError.userError = true;
             throw userError;
         }
