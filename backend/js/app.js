@@ -44,7 +44,7 @@ app.get('/meetings/:meetingID/results', async (req, res) => {
 });
 
 //adding new players
-app.post('/new_player', async (req, res) => {
+app.post('/players', async (req, res) => {
     try {
         await player.addNewPlayers(req.body);
         res.sendStatus(200);
@@ -57,7 +57,7 @@ app.post('/new_player', async (req, res) => {
 });
 
 //adding new meeting
-app.post('/meetings/new_meeting', async (req, res) => {
+app.post('/meetings', async (req, res) => {
     try {
         await meeting.addNewMeeting(req.body);
         res.sendStatus(200);

@@ -112,7 +112,7 @@
     lastname - string</br>
     gender - string (m for male, f for female)</br>
 
-    <form action="/meetings/new_players" method="POST">
+    <form action="/meetings" method="POST">
         <input type="text" name="endpoint" value="/meetings">
         <button type="submit">Send request</button>
         </br>
@@ -135,7 +135,7 @@
     Json payload is reqired.</br>
 
     <form action="/meetings/new_players" method="POST">
-        <input type="text" name="endpoint" value="/new_player">
+        <input type="text" name="endpoint" value="/meetings/new_players">
         <button type="submit">Send request</button>
         </br>
         <div class="wrapper">
