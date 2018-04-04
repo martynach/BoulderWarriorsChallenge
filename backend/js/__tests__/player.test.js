@@ -89,6 +89,31 @@ describe('Tests for adding new player', () => {
 
         const tmpFileContent = await promisify(fs.readFile, tmpFilepath, 'utf8');
         expect(tmpFileContent).toMatchSnapshot();
+    });
+
+    test('addNewPlayer method test for adding two proper player', async () => {
+        expect.assertions(2);
+
+        const newPlayer1 = { firstname: 'Marti', lastname: 'Chomik', gender: 'f' };
+        const newPlayer2 = { firstname: 'Martin', lastname: 'Chomik', gender: 'm' };
+        await player.addNewPlayers([newPlayer1, newPlayer2]);
+
+        const allPlayers = await player.getAllPlayers();
+        expect(allPlayers).toMatchSnapshot();
+
+        const tmpFileContent = await promisify(fs.readFile, tmpFilepath, 'utf8');
+        expect(tmpFileContent).toMatchSnapshot();
+    })
+
+    test('addNewPlayer method test for adding not array', async () => {
+        expect.assertions(1);
+
+        const newPlayer1 = { firstname: 'Marti', lastname: 'Chomik', gender: 'f' };
+        await player.addNewPlayers(newPlayer1);
+
+        const expectedError = new Error('Incorrect properties of new players playload - array of objects {firstname, lastname, gender} required');
+        await expect(player.addNewPlayers(newPlayer1)).rejects.toEqual(expectedError);
+
     })
 
 });
