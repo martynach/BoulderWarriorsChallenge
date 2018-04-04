@@ -109,11 +109,25 @@ describe('Tests for adding new player', () => {
         expect.assertions(1);
 
         const newPlayer1 = { firstname: 'Marti', lastname: 'Chomik', gender: 'f' };
-        await player.addNewPlayers(newPlayer1);
-
         const expectedError = new Error('Incorrect properties of new players playload - array of objects {firstname, lastname, gender} required');
         await expect(player.addNewPlayers(newPlayer1)).rejects.toEqual(expectedError);
 
+    })
+
+    test('addNewPlayer method test for incorrect new players gender', async () => {
+        expect.assertions(1);
+
+        const newPlayer1 = { firstname: 'Marti', lastname: 'Chomik', gender: 'kobieta' };
+        const expectedError = new Error('Incorrect properties of new players playload - array of objects {firstname, lastname, gender} required');
+        await expect(player.addNewPlayers([newPlayer1])).rejects.toEqual(expectedError);
+    })
+
+    test('addNewPlayer method test for incorrect new players properties', async () => {
+        expect.assertions(1);
+
+        const newPlayer1 = { firstname: 'Marti', lastname: 'Chomik', gender: 'f', unknown: 3 };
+        const expectedError = new Error('Incorrect properties of new players playload - array of objects {firstname, lastname, gender} required');
+        await expect(player.addNewPlayers([newPlayer1])).rejects.toEqual(expectedError);
     })
 
 });
