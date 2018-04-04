@@ -9,6 +9,14 @@ const player = new Player();
 const Meeting = require('./Meeting');
 const meeting = new Meeting();
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+
+app.use(express.static(
+    path.join( __dirname, '../frontend'), 
+   {index: 'home.html'}
+));
 
 
 //list of all players
