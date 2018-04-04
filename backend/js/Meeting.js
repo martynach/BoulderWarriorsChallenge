@@ -25,10 +25,7 @@ class Meeting {
             numOfBoulders: Joi.number().integer().required(),
         });
 
-        this.newPlayersSchema = Joi.object().keys({
-            meetingId: Joi.number().integer().required(),
-            players: Joi.array().items(Joi.number()).required()
-        });
+        this.newPlayersSchema = Joi.array().items(Joi.number().required()).required();
 
         this.newResultsSchema = Joi.object().keys({
             meetingId: Joi.number().integer().required(),
@@ -127,16 +124,17 @@ class Meeting {
         return meetingElement.players;
     }
 
-    async addNewPlayers(newPlayersPayload) {
+    async addNewPlayers(newPlayersPayload, meetingId) {
         await this.loadMeetings();
 
+        this.validateMeetingId(meetingId)
+
         this.validateNewPlayersProperties(newPlayersPayload);
-        this.validateMeetingId(newPlayersPayload.meetingId)
 
-        const meetingElement = this.meetings.find(element => element.id === newPlayersPayload.meetingId);
-        this.validatePlayersIds(newPlayersPayload.players, meetingElement.players);
+        const meetingElement = this.meetings.find(element => element.id === meetingId);
+        this.validatePlayersIds(newPlayersPayload, meetingElement.players);
 
-        meetingElement.players.push(...newPlayersPayload.players);
+        meetingElement.players.push(...newPlayersPayload);
 
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
     }

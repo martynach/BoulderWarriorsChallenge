@@ -183,10 +183,10 @@ describe('Tests for adding players to meeting with given id', () => {
     test('addNewPlayers proper playersIds and meetingId', async () => {
         expect.assertions(2);
 
-        const newPlayersPayload = { meetingId: 2, players: [2, 3, 4] }
-        await meeting.addNewPlayers(newPlayersPayload);
+        const newPlayersPayload = [2, 3, 4];
+        await meeting.addNewPlayers([2, 3, 4], 2);
 
-        const players = await meeting.getPlayersIds(newPlayersPayload.meetingId);
+        const players = await meeting.getPlayersIds(2);
         expect(players).toEqual(expect.arrayContaining([1, 2, 3, 4, 9]));
 
         const tmpFileContent = await promisify(fs.readFile, tmpFilepath, 'utf8');
@@ -196,25 +196,22 @@ describe('Tests for adding players to meeting with given id', () => {
     test('addNewPlayers bad meetingId', async () => {
         expect.assertions(1);
 
-        const newPlayersPayload = { meetingId: 4, players: [2, 3, 4] }
-        const expectedError = new Error(`Not existing meetingId: ${newPlayersPayload.meetingId}`)
-        await expect(meeting.addNewPlayers(newPlayersPayload)).rejects.toEqual(expectedError);
+        const expectedError = new Error(`Not existing meetingId: 4`)
+        await expect(meeting.addNewPlayers([2, 3, 4], 4)).rejects.toEqual(expectedError);
     });
 
     test('addNewPlayers bad playerIds - they are already in the meeting', async () => {
         expect.assertions(1);
 
-        const newPlayersPayload = { meetingId: 2, players: [1, 2] } //player 1 already exists
-        const expectedError = new Error('Incorrect ids of players: ' + newPlayersPayload.players.toString() + '; ids already exist in this meeting');
-        await expect(meeting.addNewPlayers(newPlayersPayload)).rejects.toEqual(expectedError);
+        const expectedError = new Error('Incorrect ids of players: ' + [1, 2].toString() + '; ids already exist in this meeting');
+        await expect(meeting.addNewPlayers([1, 2], 2)).rejects.toEqual(expectedError);
     });
 
     test('addNewPlayers bad playerIds - the are not in general list of players', async () => {
         expect.assertions(1);
 
-        const newPlayersPayload = { meetingId: 2, players: [2, 30] } //player with id 30 does not exist
-        const expectedError = new Error('Incorrect ids of players: ' + newPlayersPayload.players.toString() + '; ids do not exist in general list of players');
-        await expect(meeting.addNewPlayers(newPlayersPayload)).rejects.toEqual(expectedError);
+        const expectedError = new Error('Incorrect ids of players: ' + [2, 30].toString() + '; ids do not exist in general list of players');
+        await expect(meeting.addNewPlayers([2, 30], 2)).rejects.toEqual(expectedError);
     });
 
 });
