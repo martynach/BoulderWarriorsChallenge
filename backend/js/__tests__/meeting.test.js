@@ -127,7 +127,7 @@ describe('Tests for adding boulders to meeting with given id', () => {
     test('addNewBoulders -removing boulders- proper number and meetingId', async () => {
         expect.assertions(2);
 
-        const newBouldersPayload = {numOfBoulders: -5 };
+        const newBouldersPayload = { numOfBoulders: -5 };
         await meeting.addNewBoulders(newBouldersPayload, 2);
 
         const numOfBoulders = await meeting.getNumberOfBoulders(2);
@@ -239,13 +239,12 @@ describe('Tests for setting results of meeting with given id', () => {
     test('setResultsOfMeeting proper values', async () => {
         expect.assertions(1);
 
-        const newResultsPayload = {
-            meetingId: 2, results: [
-                { playerID: 1, top: 30, bonus: 40 },
-                { playerID: 9, top: 34, bonus: 39 },
-            ]
-        };
-        await meeting.setResultsOfMeeting(newResultsPayload);
+        const newResultsPayload = [
+            { playerID: 1, top: 30, bonus: 40 },
+            { playerID: 9, top: 34, bonus: 39 },
+        ];
+
+        await meeting.setResultsOfMeeting(newResultsPayload, 2);
 
         const tmpFileContent = await promisify(fs.readFile, tmpFilepath, 'utf8');
         expect(tmpFileContent).toMatchSnapshot();
@@ -261,70 +260,56 @@ describe('Tests for setting results of meeting with given id', () => {
             ]
         };
 
-        const expectedError = new Error('Incorrect properties of new results playload - object (meetingId, results array {playerID, top, bonus}) is required');
-        await expect(meeting.setResultsOfMeeting(newResultsPayload)).rejects.toEqual(expectedError);
-
+        const expectedError = new Error('Incorrect properties of new results playload - array containing objects {playerID, top, bonus}) is required');
+        await expect(meeting.setResultsOfMeeting(newResultsPayload, 2)).rejects.toEqual(expectedError);
     });
 
     test('setResultsOfMeeting incorrect properties - no playerID', async () => {
         expect.assertions(1);
 
-        const newResultsPayload = {
-            meetingId: 2, results: [
-                {  top: 30, bonus: 40 },
-                { playerID: 9, top: 34, bonus: 39 },
-            ]
-        };
+        const newResultsPayload = [
+            { top: 30, bonus: 40 },
+            { playerID: 9, top: 34, bonus: 39 },
+        ];
 
-        const expectedError = new Error('Incorrect properties of new results playload - object (meetingId, results array {playerID, top, bonus}) is required');
-        await expect(meeting.setResultsOfMeeting(newResultsPayload)).rejects.toEqual(expectedError);
-
+        const expectedError = new Error('Incorrect properties of new results playload - array containing objects {playerID, top, bonus}) is required');
+        await expect(meeting.setResultsOfMeeting(newResultsPayload, 2)).rejects.toEqual(expectedError);
     });
 
     test('setResultsOfMeeting incorrect value of playerID', async () => {
         expect.assertions(1);
 
-        const newResultsPayload = {
-            meetingId: 2, results: [
-                { playerID: 2, top: 30, bonus: 40 },
-                { playerID: 9, top: 34, bonus: 39 },
-            ]
-        };
+        const newResultsPayload = [
+            { playerID: 2, top: 30, bonus: 40 },
+            { playerID: 9, top: 34, bonus: 39 }
+        ];
 
         const expectedError = new Error(`Incorrect player id : 2`);
-        await expect(meeting.setResultsOfMeeting(newResultsPayload)).rejects.toEqual(expectedError);
-
+        await expect(meeting.setResultsOfMeeting(newResultsPayload, 2)).rejects.toEqual(expectedError);
     });
 
     test('setResultsOfMeeting incorrect value of top', async () => {
         expect.assertions(1);
 
-        const newResultsPayload = {
-            meetingId: 2, results: [
-                { playerID: 1, top: 50, bonus: 40 },
-                { playerID: 9, top: 34, bonus: 39 },
-            ]
-        };
+        const newResultsPayload = [
+            { playerID: 1, top: 50, bonus: 40 },
+            { playerID: 9, top: 34, bonus: 39 },
+        ];
 
         const expectedError = new Error(`Incorrect value of top : 50 for player with id: 1`);
-        await expect(meeting.setResultsOfMeeting(newResultsPayload)).rejects.toEqual(expectedError);
-
+        await expect(meeting.setResultsOfMeeting(newResultsPayload, 2)).rejects.toEqual(expectedError);
     });
 
     test('setResultsOfMeeting incorrect value of bonus', async () => {
         expect.assertions(1);
 
-        const newResultsPayload = {
-            meetingId: 2, results: [
-                { playerID: 1, top: 35, bonus: 40 },
-                { playerID: 9, top: 34, bonus: -3 },
-            ]
-        };
+        const newResultsPayload = [
+            { playerID: 1, top: 35, bonus: 40 },
+            { playerID: 9, top: 34, bonus: -3 },
+        ];
 
         const expectedError = new Error(`Incorrect value of bonus : -3 for player with id: 9`);
-        await expect(meeting.setResultsOfMeeting(newResultsPayload)).rejects.toEqual(expectedError);
-
+        await expect(meeting.setResultsOfMeeting(newResultsPayload, 2)).rejects.toEqual(expectedError);
     });
-
 
 });

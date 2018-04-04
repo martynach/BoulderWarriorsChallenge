@@ -26,15 +26,12 @@ class Meeting {
 
         this.newPlayersSchema = Joi.array().items(Joi.number().required()).required();
 
-        this.newResultsSchema = Joi.object().keys({
-            meetingId: Joi.number().integer().required(),
-            results: Joi.array().items(Joi.object().keys({
-                playerID: Joi.number().integer().required(),
-                top: Joi.number().integer().required(),
-                bonus: Joi.number().integer().required()
-            })).required()
-        }); 
-    }
+        this.newResultsSchema = Joi.array().items(Joi.object().keys({
+            playerID: Joi.number().integer().required(),
+            top: Joi.number().integer().required(),
+            bonus: Joi.number().integer().required()
+        })).required()
+    }; 
 
     async loadMeetings() {
         if (!this.meetings) {
@@ -138,18 +135,17 @@ class Meeting {
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
     }
 
-    async setResultsOfMeeting(newResultsPayload) {
+    async setResultsOfMeeting(newResultsPayload, meetingId) {
         await this.loadMeetings();
 
         await this.validateNewResultsProperties(newResultsPayload);
 
-        await this.validateMeetingId(newResultsPayload.meetingId);
+        await this.validateMeetingId(meetingId);
 
-        await this.validateValuesOfResults(newResultsPayload);
+        const meetingElement = this.meetings.find(element => element.id === meetingId);
+        await this.validateValuesOfResults(newResultsPayload, meetingElement);
 
-        const meetingElement = this.meetings.find(element => element.id === newResultsPayload.meetingId);
-
-        meetingElement.results = newResultsPayload.results;
+        meetingElement.results = newResultsPayload;
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
     }
 
@@ -202,7 +198,7 @@ class Meeting {
     validateNewPlayersProperties(newPlayersPayload) {
         const { error } = Joi.validate(newPlayersPayload, this.newPlayersSchema);
         if (error) {
-            let userError = new Error('Incorrect properties of new players playload (meetingId, players)');
+            let userError = new Error('Incorrect properties of new players playload - array containing player ids is required');
             userError.userError = true;
             throw userError;
         }
@@ -211,18 +207,17 @@ class Meeting {
     validateNewResultsProperties(newResultsPayload) {
         const { error } = Joi.validate(newResultsPayload, this.newResultsSchema);
         if (error) {
-            let userError = new Error('Incorrect properties of new results playload - object (meetingId, results array {playerID, top, bonus}) is required');
+            let userError = new Error('Incorrect properties of new results playload - array containing objects {playerID, top, bonus}) is required');
             userError.userError = true;
             throw userError;
         }
     }
 
-    async validateValuesOfResults(newResultsPayload) {
-        const meetingElement = this.meetings.find(element => element.id === newResultsPayload.meetingId);
+    async validateValuesOfResults(newResultsPayload, meetingElement) {
 
-        const playerIds = await this.getPlayersIds(newResultsPayload.meetingId);
+        const playerIds = await this.getPlayersIds(meetingElement.id);
 
-        newResultsPayload.results.forEach(element => {
+        newResultsPayload.forEach(element => {
             if (!playerIds.includes(element.playerID)) {
                 throw new Error(`Incorrect player id : ${element.playerID}`);
             }
