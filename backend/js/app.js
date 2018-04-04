@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 
 app.use(
     express.static(
-        path.join(__dirname, '../frontend')
+        path.join(__dirname, '../../frontend')
     )
 );
 
