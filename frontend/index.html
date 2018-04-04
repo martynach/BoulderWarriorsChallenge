@@ -47,8 +47,8 @@
     </br>
 
     <b class="endpoint">/meetings</b>
-    </br> Allows to get list of meetings. This can provide information about players that take part in certain meeting (players -
-    array of players' id).
+    </br> Allows to get list of meetings. This can provide information about players that take part in certain meeting (players
+    - array of players' id).
     <br> To retrieve information about players data use
     <b>/players</b> endpoint and compare ids.</br>
     <form action="/meetings" method="GET">
@@ -76,34 +76,103 @@
     </br>
     </br>
     </br>
-</br>
-
-<h3>1. POST method endpoints: </h3>
-
-<b class="endpoint">/new_player</b>
-</br> Allows to new player to general list of all players that take part in the challenge.</br>
-Json payload is reqired.</br>
-firstname - string</br>
-lastname - string</br>
-gender - string (m for male, f for female)</br>
-
-
-<form action="/new_player" method="POST">
-    <input type="text" name="endpoint" value="/new_player">
-    <button type="submit">Send request</button>
     </br>
-    <div class="wrapper">
-        Your payload:</br>
-        <textarea class="payload" name="payload"></textarea>
 
-    </div>
-    <div class="wrapper">
-        Response:</br>
-        <div class="response" name="response"></div>
-    </div>
-    <div style="clear:both;"></div>
+    <h3>1. POST method endpoints: </h3>
 
-</form>
+    <b class="endpoint">/players</b>
+    </br> Allows to new player to general list of all players that take part in the challenge.</br>
+    Json payload is reqired.</br>
+    firstname - string</br>
+    lastname - string</br>
+    gender - string (m for male, f for female)</br>
+
+    <form action="/players" method="POST">
+        <input type="text" name="endpoint" value="/players">
+        <button type="submit">Send request</button>
+        </br>
+        <div class="wrapper">
+            Your payload:</br>
+            <textarea class="payload" name="payload"></textarea>
+        </div>
+        <div class="wrapper">
+            Response:</br>
+            <div class="response" name="response"></div>
+        </div>
+        <div style="clear:both;"></div>
+    </form>
+    </br>
+    </br>
+    </br>
+
+    <b class="endpoint">/meetings</b>
+    </br> Allows to new player to general list of all players that take part in the challenge.</br>
+    Json payload is reqired.</br>
+    firstname - string</br>
+    lastname - string</br>
+    gender - string (m for male, f for female)</br>
+
+    <form action="/meetings/new_players" method="POST">
+        <input type="text" name="endpoint" value="/meetings">
+        <button type="submit">Send request</button>
+        </br>
+        <div class="wrapper">
+            Your payload:</br>
+            <textarea class="payload" name="payload"></textarea>
+        </div>
+        <div class="wrapper">
+            Response:</br>
+            <div class="response" name="response"></div>
+        </div>
+        <div style="clear:both;"></div>
+    </form>
+    </br>
+    </br>
+    </br>
+
+    <b class="endpoint">/meetings/new_players</b>
+    </br> Allows to add new players to certain meeting.</br>
+    Json payload is reqired.</br>
+
+    <form action="/meetings/new_players" method="POST">
+        <input type="text" name="endpoint" value="/new_player">
+        <button type="submit">Send request</button>
+        </br>
+        <div class="wrapper">
+            Your payload:</br>
+            <textarea class="payload" name="payload"></textarea>
+        </div>
+        <div class="wrapper">
+            Response:</br>
+            <div class="response" name="response"></div>
+        </div>
+        <div style="clear:both;"></div>
+    </form>
+    </br>
+    </br>
+    </br>
+
+    <b class="endpoint">/meetings/new_boulders</b>
+    </br> Allows to add new boulders to certain meeting.</br>
+    Json payload is reqired.</br>
+
+    <form action="/meetings/new_boulders" method="POST">
+        <input type="text" name="endpoint" value="/meetings/new_boulders">
+        <button type="submit">Send request</button>
+        </br>
+        <div class="wrapper">
+            Your payload:</br>
+            <textarea class="payload" name="payload"></textarea>
+        </div>
+        <div class="wrapper">
+            Response:</br>
+            <div class="response" name="response"></div>
+        </div>
+        <div style="clear:both;"></div>
+    </form>
+    </br>
+    </br>
+    </br>
 
 
 </body>
