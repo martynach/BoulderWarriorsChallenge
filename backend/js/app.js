@@ -11,12 +11,13 @@ const meeting = new Meeting();
 
 const bodyParser = require('body-parser');
 
-app.use(bodyParser.json());
+app.use(
+    express.static(
+        path.join(__dirname, '../frontend')
+    )
+);
 
-app.use(express.static(
-    path.join( __dirname, '../frontend'), 
-   {index: 'home.html'}
-));
+app.use(bodyParser.json());
 
 
 //list of all players
@@ -40,7 +41,6 @@ app.get('/meetings', async (req, res) => {
 //results from one certain meeting
 app.get('/meetings/:meetingID/results', async (req, res) => {
     res.send(await meeting.getResults(req.params.meetingID, req.query.gender));
-
 });
 
 //adding new players
@@ -91,6 +91,5 @@ app.post('/meetings/new_boulders', async (req, res) => {
         res.send({ message: error.message });
     }
 });
-
 
 module.exports = app
