@@ -184,7 +184,7 @@ class Meeting {
     validateNewPlayersProperties(newPlayersPayload) {
         const { error } = Joi.validate(newPlayersPayload, this.newPlayersSchema);
         if (error) {
-            throw new Error('Incorrect properties of new players playload (meetingId, players)');
+            let userError = new Error('Incorrect properties of new players playload (meetingId, players)');
             userError.userError = true;
             throw userError;
         }
