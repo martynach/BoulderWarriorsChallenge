@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>API documentation</title>
+    <script src="js/app.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <h1>Boulder Warriors Challenge API documentation</h1>
+
+    <h3>1. GET method endpoints: </h3>
+
+    <b class="endpoint">/players</b>
+    </br>
+    Allows to get list of all players taking part in the challenge. Players are sorted alphabetically according to their surname.</br>
+    Gender param is optional and specifies gender of players.</br>
+    <form action="/players" method="GET">
+        Gender:
+        <input type="text" name="endpoint" value="/players?gender=male">
+        <button type="submit">Send request</button>
+        </br>
+        Response:
+        <div class="response" name="response"></div>
+    </form>
+    </br>
+    </br>
+    </br>
+
+    <b class="endpoint">/players/top</b>
+    </br>
+    Allows to get list of all players with the points they've collected during the entire challenge (sum of points from all meetings).</br>
+    Players are sorted by their points starting from the best player.</br>Gender param is optional and specifies gender of
+    players.
+    </br>
+    <form action="/players/top" method="GET">
+        <input type="text" name="endpoint" value="/players/top">
+        <button type="submit">Send request</button>
+        </br>
+        Response:
+        <div class="response" name="response"></div>
+    </form>
+    </br>
+    </br>
+    </br>
+
+    <b class="endpoint">/meetings</b>
+    </br> Allows to get list of meetings. This can provide information about players that take part in certain meeting (players -
+    array of players' id).
+    <br> To retrieve information about players data use
+    <b>/players</b> endpoint and compare ids.</br>
+    <form action="/meetings" method="GET">
+        <input type="text" name="endpoint" value="/meetings">
+        <button type="submit">Send request</button>
+        </br>
+        Response:
+        <div class="response" name="response"></div>
+    </form>
+    </br>
+    </br>
+    </br>
+
+    <b class="endpoint">/meetings/:meetingID/results</b>
+    </br> Allows to get results of meeting with given meetingID. To obtain meeting ids use
+    <b>/meetings</b> endpoint.
+
+    <form action="/meetings" method="GET">
+        <input type="text" name="endpoint" value="/meetings/1/results">
+        <button type="submit">Send request</button>
+        </br>
+        Response:
+        <div class="response" name="response"></div>
+    </form>
+    </br>
+    </br>
+    </br>
+</br>
+
+<h3>1. POST method endpoints: </h3>
+
+<b class="endpoint">/new_player</b>
+</br> Allows to new player to general list of all players that take part in the challenge.</br>
+Json payload is reqired.</br>
+firstname - string</br>
+lastname - string</br>
+gender - string (m for male, f for female)</br>
+
+
+<form action="/new_player" method="POST">
+    <input type="text" name="endpoint" value="/new_player">
+    <button type="submit">Send request</button>
+    </br>
+    <div class="wrapper">
+        Your payload:</br>
+        <textarea class="payload" name="payload"></textarea>
+
+    </div>
+    <div class="wrapper">
+        Response:</br>
+        <div class="response" name="response"></div>
+    </div>
+    <div style="clear:both;"></div>
+
+</form>
+
+
+</body>
+
+</html>
