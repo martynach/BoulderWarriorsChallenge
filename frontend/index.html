@@ -18,7 +18,6 @@
     Allows to get list of all players taking part in the challenge. Players are sorted alphabetically according to their surname.</br>
     Gender param is optional and specifies gender of players.</br>
     <form action="/players" method="GET">
-        Gender:
         <input type="text" name="endpoint" value="/players?gender=male">
         <button type="submit">Send request</button>
         </br>
@@ -47,9 +46,12 @@
     </br>
 
     <b class="endpoint">/meetings</b>
-    </br> Allows to get list of meetings. This can provide information about players that take part in certain meeting (players
-    - array of players' id).
-    <br> To retrieve information about players data use
+    </br> Allows to get list of all the meetings. This can provide information about: </br>
+    - players that take part in certain meetings (
+    <b>players</b> - array of players' ids) </br>
+    - results of certain meetings (
+    <b>results</b> - array containing objects with number of tops and bonuses gained by player with playerID)
+    <br> To retrieve information about players (firstname, lastname...) use
     <b>/players</b> endpoint and compare ids.</br>
     <form action="/meetings" method="GET">
         <input type="text" name="endpoint" value="/meetings">
@@ -63,7 +65,7 @@
     </br>
 
     <b class="endpoint">/meetings/:meetingID/results</b>
-    </br> Allows to get results of meeting with given meetingID. To obtain meeting ids use
+    </br> Allows to get results of meeting with given meetingID. To obtain information about meeting ids use
     <b>/meetings</b> endpoint.
 
     <form action="/meetings" method="GET">
@@ -78,10 +80,10 @@
     </br>
     </br>
 
-    <h3>1. POST method endpoints: </h3>
+    <h3>2. POST method endpoints: </h3>
 
     <b class="endpoint">/players</b>
-    </br> Allows to new player to general list of all players that take part in the challenge.</br>
+    </br> Allows to add new players to general list of all players that take part in the challenge.</br>
     Json payload is reqired. Json must consist of an array of objects containing:</br>
     firstname - string</br>
     lastname - string</br>
@@ -94,6 +96,7 @@
         <div class="wrapper">
             Your payload:</br>
             <textarea class="payload" name="payload">
+
 [  
     {  
         "firstname":"Ola",
@@ -114,11 +117,13 @@
     </br>
 
     <b class="endpoint">/meetings</b>
-    </br> Allows to new player to general list of all players that take part in the challenge.</br>
-    Json payload is reqired.</br>
-    firstname - string</br>
-    lastname - string</br>
-    gender - string (m for male, f for female)</br>
+    </br> Allows to add new meeting to the challenge.</br>
+    Json payload is reqired:</br>
+    name - string</br>
+    date - string</br>
+    numOfBoulders - integer - optional </br>
+    players - array of integers (containing players ids) - optional </br>
+
 
     <form action="/meetings" method="POST">
         <input type="text" name="endpoint" value="/meetings">
@@ -126,7 +131,14 @@
         </br>
         <div class="wrapper">
             Your payload:</br>
-            <textarea class="payload" name="payload"></textarea>
+            <textarea class="payload" name="payload">
+{
+    "name": "Name of the meeting",
+    "date": "20.05.2018",
+    "numOfBoulders": 4,
+    "players": [3,4,5],
+}
+            </textarea>
         </div>
         <div class="wrapper">
             Response:</br>
@@ -138,17 +150,19 @@
     </br>
     </br>
 
-    <b class="endpoint">/meetings/new_players</b>
-    </br> Allows to add new players to certain meeting.</br>
-    Json payload is reqired.</br>
+    <b class="endpoint">/meetings/:meetingId/players</b>
+    </br> Allows to add players to existing meeting.</br>
+    Json payload is reqired: array of integers - players ids.</br>
+    To obtain information about players ids use
+    <b>/players</b> endpoint.</br>
 
-    <form action="/meetings/new_players" method="POST">
-        <input type="text" name="endpoint" value="/meetings/new_players">
+    <form action="/meetings" method="POST">
+        <input type="text" name="endpoint" value="/meetings/3/players">
         <button type="submit">Send request</button>
         </br>
         <div class="wrapper">
             Your payload:</br>
-            <textarea class="payload" name="payload"></textarea>
+            <textarea class="payload" name="payload">[1,2,3]</textarea>
         </div>
         <div class="wrapper">
             Response:</br>
@@ -160,17 +174,20 @@
     </br>
     </br>
 
-    <b class="endpoint">/meetings/new_boulders</b>
-    </br> Allows to add new boulders to certain meeting.</br>
-    Json payload is reqired.</br>
+    <b class="endpoint">/meetings/:meetingId/boulders</b>
+    </br> Allows to add new boulders to existing boulders of certain meeting. </br>
+    Json payload is reqired:</br>
+    numOfBoulders - integer </br>
 
-    <form action="/meetings/new_boulders" method="POST">
-        <input type="text" name="endpoint" value="/meetings/new_boulders">
+    <form action="/meetings" method="POST">
+        <input type="text" name="endpoint" value="/meetings/:meetingId/boulders">
         <button type="submit">Send request</button>
         </br>
         <div class="wrapper">
             Your payload:</br>
-            <textarea class="payload" name="payload"></textarea>
+            <textarea class="payload" name="payload">
+{"numOfBoulders": 5}
+            </textarea>
         </div>
         <div class="wrapper">
             Response:</br>
@@ -180,6 +197,51 @@
     </form>
     </br>
     </br>
+    </br>
+
+    <h3>3. PATCH method endpoints: </h3>
+
+
+    <b class="endpoint">/meetings/:meetingId/results</b>
+    </br> Allows to set results of certain meeting. BE CAREFUL - if the meeting already had some results it will be overwritten.
+    </br>
+    Json payload is reqired - array of objects containing: </br>
+    playerID - integer </br>
+    top - integer (cannot exceed number numOfBoulders in the meeting)</br>
+    bonus - integer (cannot exceed number numOfBoulders in the meeting)</br>
+
+    <form action="/meetings" method="POST">
+        <input type="text" name="endpoint" value="/meetings/2/results">
+        <button type="submit">Send request</button>
+        </br>
+        <div class="wrapper">
+            Your payload:</br>
+            <textarea class="payload" name="payload">
+[
+    {
+        "playerID": 1,
+        "top": 2,
+        "bonus": 3
+    },
+    {
+        "playerID": 2,
+        "top": 3,
+        "bonus": 5
+    },
+    {
+        "playerID": 3,
+        "top": 5,
+        "bonus": 5
+    }
+]
+        </textarea>
+        </div>
+        <div class="wrapper">
+            Response:</br>
+            <div class="response" name="response"></div>
+        </div>
+        <div style="clear:both;"></div>
+    </form>
     </br>
 
 
