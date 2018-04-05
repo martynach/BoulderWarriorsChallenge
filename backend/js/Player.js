@@ -76,8 +76,8 @@ class Player {
         return newPlayers;
     }
 
-    getPlayersIds() {
-        this.loadPlayers();
+    async getPlayersIds() {
+        await this.loadPlayers();
         return this.players.map(player => player.id);
     }
 

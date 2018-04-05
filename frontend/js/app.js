@@ -13,18 +13,19 @@ async function handleFormSubmit(event) {
     let responseDiv = form.querySelector('.response');
     const formData = new FormData(form);
     const payload = formData.get('payload');
-
+  
     try {
         let response;
 
         if (payload) {
             JSON.parse(payload);
+            let method = form.querySelector('.patch') ? 'PATCH' : 'POST';
 
             response = await fetch(formData.get('endpoint'), {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                method: 'POST',
+                method: method,
                 body: payload,
             });
         } else {

@@ -79,11 +79,11 @@ class Meeting {
         }
 
         if (!newMeetingPayload.numOfBoulders) {
-            newMeetingPayload.numOfBoulders = [];
+            newMeetingPayload.numOfBoulders = 0;
         }
 
-        this.validateNewMeetingProperties(newMeetingPayload);
-        this.validatePlayersIds(newMeetingPayload.players);
+        await this.validateNewMeetingProperties(newMeetingPayload);
+        await this.validatePlayersIds(newMeetingPayload.players);
 
 
         let maxMeetingID = this.meetings.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
@@ -101,7 +101,7 @@ class Meeting {
         this.validateNewBouldersProperties(newBouldersPayload);
         this.validateMeetingId(meetingId)
 
-        const meetingElement = this.meetings.find(element => element.id === meetingId);
+        const meetingElement = this.meetings.find(element => element.id === parseInt(meetingId));
         meetingElement.numOfBoulders += newBouldersPayload.numOfBoulders;
 
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
@@ -113,7 +113,7 @@ class Meeting {
         await this.loadMeetings();
         this.validateMeetingId(meetingId);
 
-        const meetingElement = this.meetings.find(element => element.id == meetingId);
+        const meetingElement = this.meetings.find(element => element.id === parseInt(meetingId));
         return meetingElement.numOfBoulders;
     }
 
@@ -132,8 +132,8 @@ class Meeting {
 
         this.validateNewPlayersProperties(newPlayersPayload);
 
-        const meetingElement = this.meetings.find(element => element.id === meetingId);
-        this.validatePlayersIds(newPlayersPayload, meetingElement.players);
+        const meetingElement = this.meetings.find(element => element.id === parseInt(meetingId));
+        await this.validatePlayersIds(newPlayersPayload, meetingElement.players);
 
         meetingElement.players.push(...newPlayersPayload);
 
@@ -149,7 +149,7 @@ class Meeting {
 
         await this.validateMeetingId(meetingId);
 
-        const meetingElement = this.meetings.find(element => element.id === meetingId);
+        const meetingElement = this.meetings.find(element => element.id === parseInt(meetingId));
         await this.validateValuesOfResults(newResultsPayload, meetingElement);
 
         meetingElement.results = newResultsPayload;
@@ -167,8 +167,8 @@ class Meeting {
         }
     }
 
-    validatePlayersIds(newPlayerIds, alreadySignedPlayersIds) {
-        const generalListOfPlayersIds = this.player.getPlayersIds();
+    async validatePlayersIds(newPlayerIds, alreadySignedPlayersIds) {
+        const generalListOfPlayersIds = await this.player.getPlayersIds();
         if (!newPlayerIds.every(id => generalListOfPlayersIds.includes(id))) {
             let userError = Error('Incorrect ids of players: ' + newPlayerIds.toString() + '; ids do not exist in general list of players');
             userError.userError = true;
