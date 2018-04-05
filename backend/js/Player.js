@@ -57,15 +57,15 @@ class Player {
         return this.players;
     }
 
-    async addNewPlayers(newPlayers) {
+    async addNewPlayers(newPlayersPayload) {
         await this.loadPlayers();
 
-        this.validateNewPlayersProperties(newPlayers);
+        this.validateNewPlayersProperties(newPlayersPayload);
 
         let maxPlayerId = this.players.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
 
         const newPlayers = [];
-        newPlayers.forEach(player => {
+        newPlayersPayload.forEach(player => {
             newPlayers.push({id: ++maxPlayerId, firstname : player.firstname, lastname: player.lastname, gender: player.gender, top: 0, bonus: 0});
         });
 

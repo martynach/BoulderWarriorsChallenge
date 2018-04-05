@@ -71,23 +71,23 @@ class Meeting {
         return resultsWithPlayersData;
     }
 
-    async addNewMeeting(newMeeting) {
+    async addNewMeeting(newMeetingPayload) {
         await this.loadMeetings();
 
-        if (!newMeeting.players) {
-            newMeeting.players = [];
+        if (!newMeetingPayload.players) {
+            newMeetingPayload.players = [];
         }
 
-        if (!newMeeting.numOfBoulders) {
-            newMeeting.numOfBoulders = [];
+        if (!newMeetingPayload.numOfBoulders) {
+            newMeetingPayload.numOfBoulders = [];
         }
 
-        this.validateNewMeetingProperties(newMeeting);
-        this.validatePlayersIds(newMeeting.players);
+        this.validateNewMeetingProperties(newMeetingPayload);
+        this.validatePlayersIds(newMeetingPayload.players);
 
 
         let maxMeetingID = this.meetings.reduce((prev, curr) => curr.id > prev ? curr.id : prev, 1);
-        const newMeeting = { id: ++maxMeetingID, name: newMeeting.name, date: newMeeting.date, numOfBoulders: newMeeting.numOfBoulders, players: newMeeting.players, results: [] };
+        const newMeeting = { id: ++maxMeetingID, name: newMeetingPayload.name, date: newMeetingPayload.date, numOfBoulders: newMeetingPayload.numOfBoulders, players: newMeetingPayload.players, results: [] };
         this.meetings.push(newMeeting);
 
         fs.writeFileSync(this.filepath, JSON.stringify(this.meetings));
