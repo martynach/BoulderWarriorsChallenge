@@ -31,15 +31,17 @@ async function handleFormSubmit(event) {
             response = await fetch(formData.get('endpoint'));
         }
 
-        if (!response.ok) {
-            throw new Error('Network error');
-        }
         const jsonResp = await response.json();
+
+
+        if (!response.ok) {
+            throw new Error(JSON.stringify(jsonResp));
+        }
         responseDiv.innerText = JSON.stringify(jsonResp);
         responseDiv.classList.remove('error');
 
     } catch (error) {
-        responseDiv.innerText = 'Error:' + error;
+        responseDiv.innerText = error;
         responseDiv.classList.add('error');
     }
 }
